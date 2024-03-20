@@ -1,6 +1,6 @@
-package dev.mayra.courses.repositories;
+package dev.mayra.courses.infra.repositories;
 
-import dev.mayra.courses.domain.entities.User;
+import dev.mayra.courses.entities.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

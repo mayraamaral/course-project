@@ -1,6 +1,6 @@
 package dev.mayra.courses.utils;
 
-import dev.mayra.courses.domain.entities.Role;
+import dev.mayra.courses.entities.role.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

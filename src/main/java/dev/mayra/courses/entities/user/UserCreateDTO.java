@@ -1,4 +1,4 @@
-package dev.mayra.courses.domain.dtos;
+package dev.mayra.courses.entities.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;

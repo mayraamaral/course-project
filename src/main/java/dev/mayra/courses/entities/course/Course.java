@@ -1,5 +1,4 @@
-package dev.mayra.courses.domain.entities;
-import dev.mayra.courses.domain.enums.CourseStatus;
+package dev.mayra.courses.entities.course;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

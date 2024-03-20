@@ -1,10 +1,9 @@
-package dev.mayra.courses.services;
+package dev.mayra.courses.app.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.mayra.courses.domain.dtos.UserCreateDTO;
-import dev.mayra.courses.domain.dtos.UserResponseDTO;
-import dev.mayra.courses.domain.entities.User;
-import dev.mayra.courses.repositories.UserRepository;
+import dev.mayra.courses.entities.user.UserCreateDTO;
+import dev.mayra.courses.entities.user.UserResponseDTO;
+import dev.mayra.courses.entities.user.User;
+import dev.mayra.courses.infra.repositories.UserRepository;
 import dev.mayra.courses.utils.LeastPrivilegedRole;
 import dev.mayra.courses.utils.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +31,8 @@ public class UserService {
 
   public UserResponseDTO create(UserCreateDTO userToBeCreated) {
     User user = mapper.convertToEntity(userToBeCreated, User.class);
+    String encryptedPassword = passwordEncoder.encode(userToBeCreated.getPassword());
+    user.setPassword(encryptedPassword);
     user.setCreatedAt(LocalDate.now());
     user.setRole(leastPrivilegedRole.get());
 

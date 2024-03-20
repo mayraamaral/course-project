@@ -1,5 +1,6 @@
-package dev.mayra.courses.domain.entities;
+package dev.mayra.courses.entities.user;
 
+import dev.mayra.courses.entities.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

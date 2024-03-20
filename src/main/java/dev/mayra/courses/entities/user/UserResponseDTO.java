@@ -1,6 +1,6 @@
-package dev.mayra.courses.domain.dtos;
+package dev.mayra.courses.entities.user;
 
-import dev.mayra.courses.domain.entities.Role;
+import dev.mayra.courses.entities.role.RoleDTO;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -11,7 +11,6 @@ public class UserResponseDTO {
   private String userName;
   private String name;
   private String email;
-  private String password;
   private LocalDate createdAt;
   private RoleDTO role;
 }

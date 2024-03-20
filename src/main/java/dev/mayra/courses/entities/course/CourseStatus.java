@@ -1,4 +1,4 @@
-package dev.mayra.courses.domain.enums;
+package dev.mayra.courses.entities.course;
 
 public enum CourseStatus {
   ACTIVE,

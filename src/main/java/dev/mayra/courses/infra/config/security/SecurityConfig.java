@@ -1,4 +1,4 @@
-package dev.mayra.courses.config;
+package dev.mayra.courses.infra.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +23,9 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.headers((headers) ->
             headers
-                .frameOptions((frameOptions) -> frameOptions.disable())
-        ).csrf(AbstractHttpConfigurer::disable)
+                .frameOptions((frameOptions) -> frameOptions.disable()))
+        .cors(AbstractHttpConfigurer::disable)
+        .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests((authz) -> authz
             .requestMatchers("/user/**", "/").permitAll()
             .anyRequest().authenticated());

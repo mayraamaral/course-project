@@ -1,6 +1,7 @@
-package dev.mayra.courses.domain.entities;
+package dev.mayra.courses.entities.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.mayra.courses.entities.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

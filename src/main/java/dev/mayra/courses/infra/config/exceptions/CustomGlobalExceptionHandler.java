@@ -1,4 +1,4 @@
-package dev.mayra.courses.exceptions;
+package dev.mayra.courses.infra.config.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;

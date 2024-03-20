@@ -1,4 +1,4 @@
-package dev.mayra.courses.config;
+package dev.mayra.courses.infra.config.doc;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

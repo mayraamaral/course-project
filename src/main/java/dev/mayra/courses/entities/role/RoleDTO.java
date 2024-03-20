@@ -1,4 +1,4 @@
-package dev.mayra.courses.domain.dtos;
+package dev.mayra.courses.entities.role;
 
 import lombok.Data;
 

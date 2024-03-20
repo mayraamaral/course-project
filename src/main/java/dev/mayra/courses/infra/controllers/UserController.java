@@ -1,13 +1,11 @@
-package dev.mayra.courses.controllers;
+package dev.mayra.courses.infra.controllers;
 
-import dev.mayra.courses.domain.dtos.UserCreateDTO;
-import dev.mayra.courses.domain.dtos.UserResponseDTO;
-import dev.mayra.courses.domain.entities.User;
-import dev.mayra.courses.services.UserService;
+import dev.mayra.courses.entities.user.UserCreateDTO;
+import dev.mayra.courses.entities.user.UserResponseDTO;
+import dev.mayra.courses.app.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
