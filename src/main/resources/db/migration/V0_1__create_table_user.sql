@@ -1,0 +1,14 @@
+CREATE TABLE role (
+    role_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE user (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role_id INT NOT NULL,
+    created_at DATE NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES role(role_id)
+);

@@ -1,4 +1,4 @@
-package dev.mayra.cursos;
+package dev.mayra.courses;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

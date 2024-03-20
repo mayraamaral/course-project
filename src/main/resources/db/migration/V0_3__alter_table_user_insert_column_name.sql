@@ -1,0 +1,1 @@
+ALTER TABLE db.user ADD name VARCHAR(100);

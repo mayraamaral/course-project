@@ -1,13 +1,13 @@
-package dev.mayra.cursos;
+package dev.mayra.courses;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CursosApplication {
+public class CoursesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CursosApplication.class, args);
+		SpringApplication.run(CoursesApplication.class, args);
 	}
 
 }

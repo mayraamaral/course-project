@@ -1,4 +1,4 @@
-package dev.mayra.cursos.domain.entities;
+package dev.mayra.courses.domain.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

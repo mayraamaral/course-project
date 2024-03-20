@@ -1,0 +1,3 @@
+INSERT INTO db.role(name) VALUES ("ROLE_ADMIN");
+INSERT INTO db.role(name) VALUES ("ROLE_INSTRUCTOR");
+INSERT INTO db.role(name) VALUES ("ROLE_STUDENT");
