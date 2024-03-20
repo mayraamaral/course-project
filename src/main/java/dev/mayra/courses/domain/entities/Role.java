@@ -1,5 +1,6 @@
 package dev.mayra.courses.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,6 +13,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,8 +28,9 @@ public class Role implements GrantedAuthority {
   @Column(name = "name")
   private String name;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "role", orphanRemoval = true)
-  private ArrayList<User> usuarios = new ArrayList<>();
+  private List<User> usuarios = new ArrayList<>();
 
   @Override
   public String getAuthority() {

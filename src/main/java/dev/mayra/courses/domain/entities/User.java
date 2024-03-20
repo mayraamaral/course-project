@@ -17,6 +17,7 @@ public class User {
 
   @Id
   @Column(name = "user_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer idUser;
 
   @Column(name = "user_name")
@@ -35,6 +36,6 @@ public class User {
   @JoinColumn(name = "role_id", referencedColumnName = "role_id")
   private Role role;
 
-  @Column(name = "user_id")
+  @Column(name = "created_at")
   private LocalDate createdAt;
 }
