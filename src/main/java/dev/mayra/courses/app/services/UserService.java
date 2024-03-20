@@ -24,10 +24,12 @@ public class UserService {
 
   public List<UserResponseDTO> listAllUsers() {
     List<User> allUsers = userRepository.findAll();
+
     return allUsers.stream()
         .map(entity -> mapper.convertToDTO(entity, UserResponseDTO.class))
         .collect(Collectors.toList());
   }
+
 
   public UserResponseDTO create(UserCreateDTO userToBeCreated) {
     User user = mapper.convertToEntity(userToBeCreated, User.class);

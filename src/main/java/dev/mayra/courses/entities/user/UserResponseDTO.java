@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 public class UserResponseDTO {
   private Integer idUser;
-  private String userName;
+  private String username;
   private String name;
   private String email;
   private LocalDate createdAt;
