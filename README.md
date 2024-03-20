@@ -1,9 +1,16 @@
 # Course Project
-## Tools
-- IDE: IntelliJ;
-- Database client: DBeaver;
-- Class diagram tool: Lucidchart;
-- Requests: Postman / Swagger UI.
+## Project Specification
+- **Language:** Java 21;
+- **Framework:** Spring v. 3.1.9;
+- Spring Data JPA;
+- **SGBD/Database:** MySQL;
+- **Migrations:** Flyway;
+- **Docs:** Open API Swagger.
+## Development Tools
+- **IDE:** IntelliJ;
+- **Database client:** DBeaver;
+- **Class diagram tool:** Lucidchart;
+- **Requests:** Swagger UI.
 ## Instructions
 ### Locally
 Database creation on Docker:  
@@ -20,7 +27,7 @@ docker exec -it mysql bash -l
 mysql -u root
 ```
 ### Creating the user and granting privileges
-```shell
+```sql
 CREATE USER 'your_name'@'%' IDENTIFIED BY 'your_password';
 GRANT ALL ON *.* TO 'your_name'@'%' WITH GRANT OPTION;
 ```
