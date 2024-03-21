@@ -5,11 +5,12 @@
 - Spring Data JPA;
 - **SGBD/Database:** MySQL;
 - **Migrations:** Flyway;
-- **Docs:** Open API Swagger.
+- **Docs:** Open API Swagger;
+- Lombok.
 ## Development Tools
 - **IDE:** IntelliJ;
 - **Database client:** DBeaver;
-- **Class diagram tool:** Lucidchart;
+- **Diagram tool:** Lucidchart;
 - **Requests:** Swagger UI.
 ## Instructions
 ### Locally
@@ -24,7 +25,7 @@ docker run -d -p 3306:3306 --name mysql \
 docker exec -it mysql bash -l
 ```
 ```shell
-mysql -u root
+mysql -u root -p
 ```
 ### Creating the user and granting privileges
 ```sql
@@ -32,4 +33,4 @@ CREATE USER 'your_name'@'%' IDENTIFIED BY 'your_password';
 GRANT ALL ON *.* TO 'your_name'@'%' WITH GRANT OPTION;
 ```
 ### Observation
-For security concerns, the datasource URL, user and password do not have the current values in the ```application.properties``` file, instead they are passed via VM Args.
+For security concerns, the datasource URL, user and password do not have the current values in the ```application.properties``` file, instead they are passed via VM Options.
