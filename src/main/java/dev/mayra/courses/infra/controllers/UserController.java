@@ -3,6 +3,7 @@ package dev.mayra.courses.infra.controllers;
 import dev.mayra.courses.entities.user.UserCreateDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
 import dev.mayra.courses.app.services.UserService;
+import dev.mayra.courses.infra.controllers.docs.UserControllerDoc;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Tag(name = "User", description = "Operations related to the User entity")
-public class UserController {
+public class UserController implements UserControllerDoc {
   private final UserService userService;
 
   @GetMapping

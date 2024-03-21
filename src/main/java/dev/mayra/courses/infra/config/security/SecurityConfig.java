@@ -1,7 +1,9 @@
 package dev.mayra.courses.infra.config.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.mayra.courses.infra.config.exceptions.CustomAccessDeniedHandler;
+import dev.mayra.courses.infra.config.exceptions.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.Token;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,16 +25,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class SecurityConfig {
   private final SecurityFilter securityFilter;
+  private final ObjectMapper objectMapper;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.headers((headers) ->
+    http
+        .headers((headers) ->
             headers
                 .frameOptions((frameOptions) -> frameOptions.disable()))
         .cors(AbstractHttpConfigurer::disable)
         .csrf(AbstractHttpConfigurer::disable)
+        .exceptionHandling(exceptionHandling ->
+            exceptionHandling
+                .accessDeniedHandler(new CustomAccessDeniedHandler(objectMapper))
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper)))
         .authorizeHttpRequests((authz) -> authz
-            .requestMatchers("/auth/**").permitAll()
+            .requestMatchers("/auth/**", "/").permitAll()
             .requestMatchers(HttpMethod.POST, "/user/**").hasRole("ADMIN")
             .anyRequest().authenticated());
 

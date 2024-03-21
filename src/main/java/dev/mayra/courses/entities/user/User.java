@@ -2,6 +2,7 @@ package dev.mayra.courses.entities.user;
 
 import dev.mayra.courses.entities.role.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class User implements UserDetails {
   private Integer idUser;
 
   @Getter
+  @Pattern(regexp = "^[a-z]+$", message =
+      "The username must contain only lowercase characters, without numerals and spaces.")
   @Column(name = "user_name")
   private String username;
 
