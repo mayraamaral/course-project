@@ -27,6 +27,8 @@ public interface UserControllerDoc {
       @ApiResponse(responseCode = "201", description = "Resource created"),
       @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorHandlerDTO.class))),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorHandlerDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorHandlerDTO.class))),
   })
   public ResponseEntity<UserResponseDTO> createAUser(@RequestBody @Valid UserCreateDTO user);

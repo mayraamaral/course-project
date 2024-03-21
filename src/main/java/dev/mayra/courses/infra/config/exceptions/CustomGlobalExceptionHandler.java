@@ -1,5 +1,6 @@
 package dev.mayra.courses.infra.config.exceptions;
 
+import dev.mayra.courses.utils.ErrorMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,18 +28,16 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                                                                 HttpHeaders headers,
                                                                 HttpStatusCode status,
                                                                 WebRequest request) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("timestamp", new Date());
-    body.put("status", status.value());
 
-    //Get all errors
     List<String> errors = ex.getBindingResult()
         .getFieldErrors()
         .stream()
         .map(x -> x.getField() + ": " + x.getDefaultMessage())
         .collect(Collectors.toList());
 
-    body.put("errors", errors);
+    String msg = HttpStatus.BAD_REQUEST.getReasonPhrase();
+
+    Map<String, Object> body = ErrorMap.get(errors, msg, status.value());
 
     return new ResponseEntity<>(body, headers, status);
   }
@@ -48,40 +45,49 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Object> handleException(Exception exception,
                                                 HttpServletRequest request) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("timestamp", new Date());
-    body.put("status", HttpStatus.BAD_REQUEST.value());
-    body.put("message", exception.getMessage());
+    String errorMsg = exception.getMessage();
+    int statusCode = HttpStatus.BAD_REQUEST.value();
+    String msg = HttpStatus.BAD_REQUEST.getReasonPhrase();
+
+    Map<String, Object> body = ErrorMap.get(errorMsg, msg, statusCode);
+
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<Object> handleException(AuthenticationException exception,
                                                             HttpServletRequest request) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("timestamp", new Date());
-    body.put("status", HttpStatus.FORBIDDEN.value());
-    body.put("message", exception.getMessage());
+    String errorMsg = exception.getMessage();
+    int statusCode = HttpStatus.FORBIDDEN.value();
+    String msg = HttpStatus.FORBIDDEN.getReasonPhrase();
+
+    Map<String, Object> body = ErrorMap.get(errorMsg, msg, statusCode);
+
     return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
   public ResponseEntity<Object> handleException(ConstraintViolationException exception,
                                                 HttpServletRequest request) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("timestamp", new Date());
-    body.put("status", HttpStatus.BAD_REQUEST.value());
-    body.put("message", exception.getMessage());
+
+    String errorMsg = exception.getMessage();
+    int statusCode = HttpStatus.BAD_REQUEST.value();
+    String msg = HttpStatus.BAD_REQUEST.getReasonPhrase();
+
+    Map<String, Object> body = ErrorMap.get(errorMsg, msg, statusCode);
+
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(DataIntegrityViolationException.class)
   public ResponseEntity<Object> handleException(DataIntegrityViolationException exception,
                                                 HttpServletRequest request) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("timestamp", new Date());
-    body.put("status", HttpStatus.BAD_REQUEST.value());
-    body.put("message", exception.getMessage());
+    String errorMsg = exception.getMessage();
+    int statusCode = HttpStatus.BAD_REQUEST.value();
+    String msg = HttpStatus.BAD_REQUEST.getReasonPhrase();
+
+    Map<String, Object> body = ErrorMap.get(errorMsg, msg, statusCode);
+
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
 }

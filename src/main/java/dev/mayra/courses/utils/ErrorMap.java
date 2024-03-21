@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ErrorMap {
@@ -12,6 +13,16 @@ public class ErrorMap {
     Map<String, Object> errorResponse = new HashMap<>();
     errorResponse.put("timestamp", new Date());
     errorResponse.put("status", status.value());
+    errorResponse.put("errors", errors);
+    return errorResponse;
+  }
+
+  public static Map<String, Object> get(List<String> errors, String message,
+                                        int status) {
+    Map<String, Object> errorResponse = new HashMap<>();
+    errorResponse.put("timestamp", new Date());
+    errorResponse.put("message", message);
+    errorResponse.put("status", status);
     errorResponse.put("errors", errors);
     return errorResponse;
   }
