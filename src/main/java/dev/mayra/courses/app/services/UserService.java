@@ -46,9 +46,9 @@ public class UserService {
   }
 
   public UserMinifiedDTO findByUsername(String username) throws Exception {
-    User user = findUserByUsername(username);
+    Optional<UserMinifiedDTO> user = userRepository.findByUsernameMinified(username);
 
-    return mapper.convertToDTO(user, UserMinifiedDTO.class);
+    return user.get();
   }
 
   public UserResponseDTO create(UserCreateDTO userToBeCreated) throws Exception {

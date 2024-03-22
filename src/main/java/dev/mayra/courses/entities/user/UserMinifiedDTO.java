@@ -1,11 +1,13 @@
 package dev.mayra.courses.entities.user;
 
-import dev.mayra.courses.entities.role.RoleDTO;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserMinifiedDTO {
   public String name;
   public String email;
-  public RoleDTO role;
+  public String role;
 }
