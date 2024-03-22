@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -54,16 +55,16 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(AuthenticationException.class)
-  public ResponseEntity<Object> handleException(AuthenticationException exception,
-                                                            HttpServletRequest request) {
-    String errorMsg = exception.getMessage();
-    int statusCode = HttpStatus.FORBIDDEN.value();
-    String msg = HttpStatus.FORBIDDEN.getReasonPhrase();
+  @ExceptionHandler(BadCredentialsException.class)
+  public ResponseEntity<Object> handleException(BadCredentialsException exception,
+                                                HttpServletRequest request) {
+    String errorMsg = "Wrong credentials";
+    int statusCode = HttpStatus.BAD_REQUEST.value();
+    String msg = HttpStatus.BAD_REQUEST.getReasonPhrase();
 
     Map<String, Object> body = ErrorMap.get(errorMsg, msg, statusCode);
 
-    return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,8 +31,26 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
+  public UserResponseDTO findById(Integer id) throws Exception {
+    Optional<User> user = userRepository.findById(id);
 
-  public UserResponseDTO create(UserCreateDTO userToBeCreated) {
+    if(user.isEmpty()) {
+      throw new Exception("User not found");
+    }
+
+    return mapper.convertToDTO(user.get(), UserResponseDTO.class);
+  }
+
+  public UserResponseDTO create(UserCreateDTO userToBeCreated) throws Exception {
+
+    if(userRepository.findByUsername(userToBeCreated.getUsername()).isPresent()) {
+      throw new Exception("Username already taken");
+    }
+
+    if(userRepository.findByEmail(userToBeCreated.getEmail()).isPresent()) {
+      throw new Exception("Email already registered");
+    }
+
     User user = mapper.convertToEntity(userToBeCreated, User.class);
     String encryptedPassword = passwordEncoder.encode(userToBeCreated.getPassword());
     user.setPassword(encryptedPassword);

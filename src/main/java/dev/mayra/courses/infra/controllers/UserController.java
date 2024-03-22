@@ -4,6 +4,7 @@ import dev.mayra.courses.entities.user.UserCreateDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
 import dev.mayra.courses.app.services.UserService;
 import dev.mayra.courses.infra.controllers.docs.UserControllerDoc;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +24,17 @@ public class UserController implements UserControllerDoc {
   private final UserService userService;
 
   @GetMapping("/all")
-  public List<UserResponseDTO> listAllUsers() {
-    return userService.listAllUsers();
+  public ResponseEntity<List<UserResponseDTO>> listAllUsers() {
+    return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) throws Exception {
+    return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
   }
 
   @PostMapping
-  public ResponseEntity<UserResponseDTO> createAUser(@RequestBody @Valid UserCreateDTO user) {
+  public ResponseEntity<UserResponseDTO> createAUser(@RequestBody @Valid UserCreateDTO user) throws Exception {
     UserResponseDTO userCreated = userService.create(user);
 
     return new ResponseEntity<>(userCreated, HttpStatus.CREATED);
