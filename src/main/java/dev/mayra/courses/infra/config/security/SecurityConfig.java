@@ -20,6 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static org.springframework.http.HttpMethod.*;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -41,9 +43,10 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper)))
         .authorizeHttpRequests((authz) -> authz
             .requestMatchers("/auth/**", "/").permitAll()
-            .requestMatchers(HttpMethod.PUT, "/user/**").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN")
-            .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
+            .requestMatchers(PUT, "/user/**").hasRole("ADMIN")
+            .requestMatchers(GET, "/user/**").hasRole("ADMIN")
+            .requestMatchers(DELETE, "/user/**").hasRole("ADMIN")
+            .requestMatchers(POST, "/user/**").permitAll()
             .anyRequest().authenticated());
 
     http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

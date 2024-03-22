@@ -33,17 +33,24 @@ public class UserController implements UserControllerDoc {
   }
 
   @PostMapping
-  public ResponseEntity<UserResponseDTO> createAUser(@RequestBody @Valid UserCreateDTO user) throws Exception {
+  public ResponseEntity<UserResponseDTO> createAnUser(@RequestBody @Valid UserCreateDTO user) throws Exception {
     UserResponseDTO userCreated = userService.create(user);
 
     return new ResponseEntity<>(userCreated, HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<UserResponseDTO> updateAUser(@PathVariable Integer id, @RequestBody @Valid UserCreateDTO user) throws Exception {
+  public ResponseEntity<UserResponseDTO> updateAnUser(@PathVariable Integer id, @RequestBody @Valid UserCreateDTO user) throws Exception {
     UserResponseDTO userCreated = userService.update(id, user);
 
     return new ResponseEntity<>(userCreated, HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity deleteAnUser(@PathVariable Integer id) throws Exception {
+    userService.delete(id);;
+
+    return ResponseEntity.ok().build();
   }
 
 }

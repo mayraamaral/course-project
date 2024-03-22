@@ -59,21 +59,18 @@ public class UserService {
   }
 
   public UserResponseDTO update(Integer id, UserCreateDTO userUpdated) throws Exception {
-    Optional<User> oldUserOpt = userRepository.findById(id);
-
-    if(oldUserOpt.isEmpty()) {
-      throw new Exception("User not found");
-    }
-
+    User user = findUserById(id);
     checkIfUsernameOrEmailAreTaken(userUpdated);
-
-    User user = oldUserOpt.get();
-
     BeanUtils.copyProperties(userUpdated, user);
-
     User userFromDb = userRepository.save(user);
 
     return mapper.convertToDTO(userFromDb, UserResponseDTO.class);
+  }
+
+  public void delete(Integer id) throws Exception {
+    User user = findUserById(id);
+
+    userRepository.delete(user);
   }
 
   public User getUserWithEncryptedPassword(User user) {
@@ -91,6 +88,16 @@ public class UserService {
     if(emailExists(user.getEmail())) {
       throw new Exception("Email already registered");
     }
+  }
+
+  public User findUserById(Integer id) throws Exception {
+    Optional<User> user = userRepository.findById(id);
+
+    if(user.isEmpty()) {
+      throw new Exception("User not found");
+    }
+
+    return user.get();
   }
 
   public boolean usernameExists(String username) throws Exception {
