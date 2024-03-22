@@ -22,7 +22,7 @@ import java.util.List;
 public class UserController implements UserControllerDoc {
   private final UserService userService;
 
-  @GetMapping
+  @GetMapping("/all")
   public List<UserResponseDTO> listAllUsers() {
     return userService.listAllUsers();
   }

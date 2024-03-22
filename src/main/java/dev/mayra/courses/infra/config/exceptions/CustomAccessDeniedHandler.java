@@ -1,19 +1,16 @@
 package dev.mayra.courses.infra.config.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.mayra.courses.utils.ErrorMap;
+import dev.mayra.courses.utils.errors.ErrorMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component

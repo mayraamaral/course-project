@@ -1,6 +1,6 @@
 package dev.mayra.courses.infra.config.exceptions;
 
-import dev.mayra.courses.utils.ErrorMap;
+import dev.mayra.courses.utils.errors.ErrorMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;

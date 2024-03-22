@@ -1,0 +1,1 @@
+ALTER TABLE db.user ADD username VARCHAR(20) UNIQUE NOT NULL;

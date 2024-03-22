@@ -2,8 +2,8 @@ package dev.mayra.courses.infra.controllers.docs;
 
 import dev.mayra.courses.entities.user.UserCreateDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
-import dev.mayra.courses.utils.ErrorDTO;
-import dev.mayra.courses.utils.ErrorHandlerDTO;
+import dev.mayra.courses.utils.errors.ErrorDTO;
+import dev.mayra.courses.utils.errors.ErrorHandlerDTO;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -1,4 +1,4 @@
-package dev.mayra.courses.utils;
+package dev.mayra.courses.utils.errors;
 
 import org.springframework.http.HttpStatus;
 
