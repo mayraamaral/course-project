@@ -46,6 +46,7 @@ public class SecurityConfig {
             .requestMatchers(PUT, "/user/**").hasRole("ADMIN")
             .requestMatchers(GET, "/user/**").hasRole("ADMIN")
             .requestMatchers(DELETE, "/user/**").hasRole("ADMIN")
+            .requestMatchers("/course/**").hasRole("ADMIN")
             .requestMatchers(POST, "/user/**").permitAll()
             .anyRequest().authenticated());
 
