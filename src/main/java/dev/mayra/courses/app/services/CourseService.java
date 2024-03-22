@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,17 +30,18 @@ public class CourseService {
   }
 
   public List<CourseResponseDTO> listAllOrByStatus(String status) {
-      CourseStatus statusEnum = null;
       try {
+        CourseStatus statusEnum = null;
 
         if(status != null) {
           statusEnum = CourseStatus.valueOf(status.toUpperCase());
         }
-        List<CourseResponseDTO> courses = courseRepository.findAllCoursesOrByStatus(statusEnum);
-        return courses;
 
+        List<CourseResponseDTO> courses = courseRepository.findAllCoursesOrByStatus(statusEnum);
+
+        return courses;
       } catch (IllegalArgumentException ex) {
-        throw new NotFoundException("Status " + status + " not found");
+        return new ArrayList<>();
       }
   }
 
