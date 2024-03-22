@@ -117,6 +117,18 @@ public class UserService {
     return user.get();
   }
 
+  public boolean isUserAnInstructor(Integer idUser) throws Exception {
+    Role userRole = getUserRole(idUser);
+
+    return userRole.getName().equals("ROLE_INSTRUCTOR");
+  }
+
+  public Role getUserRole(Integer idUser) throws Exception {
+    User user = findUserById(idUser);
+
+    return user.getRole();
+  }
+
   public boolean usernameExists(String username) throws Exception {
     return userRepository.findByUsername(username).isPresent();
   }

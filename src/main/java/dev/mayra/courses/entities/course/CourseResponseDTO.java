@@ -17,4 +17,5 @@ public class CourseResponseDTO {
   private String description;
   private CourseStatus status;
   private LocalDate createdAt;
+  private LocalDate inactivatedAt;
 }
