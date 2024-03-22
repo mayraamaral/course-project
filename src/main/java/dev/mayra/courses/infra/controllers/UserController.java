@@ -1,6 +1,7 @@
 package dev.mayra.courses.infra.controllers;
 
 import dev.mayra.courses.entities.user.UserCreateDTO;
+import dev.mayra.courses.entities.user.UserMinifiedDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
 import dev.mayra.courses.app.services.UserService;
 import dev.mayra.courses.infra.controllers.docs.UserControllerDoc;
@@ -27,9 +28,14 @@ public class UserController implements UserControllerDoc {
     return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/by-id/{id}")
   public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) throws Exception {
     return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+  }
+
+  @GetMapping("/by-username/{username}")
+  public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username) throws Exception {
+    return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
   }
 
   @PostMapping

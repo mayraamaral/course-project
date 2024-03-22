@@ -2,6 +2,7 @@ package dev.mayra.courses.app.services;
 
 import dev.mayra.courses.entities.role.Role;
 import dev.mayra.courses.entities.user.UserCreateDTO;
+import dev.mayra.courses.entities.user.UserMinifiedDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
 import dev.mayra.courses.entities.user.User;
 import dev.mayra.courses.infra.repositories.RoleRepository;
@@ -42,6 +43,12 @@ public class UserService {
     }
 
     return mapper.convertToDTO(user.get(), UserResponseDTO.class);
+  }
+
+  public UserMinifiedDTO findByUsername(String username) throws Exception {
+    User user = findUserByUsername(username);
+
+    return mapper.convertToDTO(user, UserMinifiedDTO.class);
   }
 
   public UserResponseDTO create(UserCreateDTO userToBeCreated) throws Exception {
@@ -88,6 +95,16 @@ public class UserService {
     if(emailExists(user.getEmail())) {
       throw new Exception("Email already registered");
     }
+  }
+
+  public User findUserByUsername(String username) throws Exception {
+    Optional<User> user = userRepository.findByUsername(username);
+
+    if(user.isEmpty()) {
+      throw new Exception("User not found");
+    }
+
+    return user.get();
   }
 
   public User findUserById(Integer id) throws Exception {

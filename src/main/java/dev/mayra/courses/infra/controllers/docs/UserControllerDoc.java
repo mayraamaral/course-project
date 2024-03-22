@@ -1,6 +1,7 @@
 package dev.mayra.courses.infra.controllers.docs;
 
 import dev.mayra.courses.entities.user.UserCreateDTO;
+import dev.mayra.courses.entities.user.UserMinifiedDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
 import dev.mayra.courses.utils.errors.ErrorListDTO;
 import dev.mayra.courses.utils.errors.ErrorDTO;
@@ -35,8 +36,19 @@ public interface UserControllerDoc {
           schema = @Schema(implementation = ErrorListDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List the requested user if it exists, and if you are an admin")
+  @Operation(summary = "List the requested user by id if it exists, and if you are an admin")
   public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) throws Exception;
+
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "OK"),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorListDTO.class))),
+      @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+  })
+  @Operation(summary = "List the requested user by username if it exists, and if you are an admin")
+  public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username) throws Exception;
 
   @Operation(summary = "Creates a new user")
   @ApiResponses(value = {
