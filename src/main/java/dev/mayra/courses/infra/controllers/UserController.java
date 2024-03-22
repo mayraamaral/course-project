@@ -28,7 +28,7 @@ public class UserController implements UserControllerDoc {
     return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
   }
 
-  @GetMapping("/by-id/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) throws Exception {
     return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
   }
