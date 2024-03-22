@@ -2,6 +2,7 @@ package dev.mayra.courses.infra.controllers.docs;
 
 import dev.mayra.courses.entities.user.UserCreateDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
+import dev.mayra.courses.utils.ErrorDTO;
 import dev.mayra.courses.utils.ErrorHandlerDTO;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,8 +28,8 @@ public interface UserControllerDoc {
       @ApiResponse(responseCode = "201", description = "Resource created"),
       @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorHandlerDTO.class))),
-      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorHandlerDTO.class))),
+      @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorHandlerDTO.class))),
   })
   public ResponseEntity<UserResponseDTO> createAUser(@RequestBody @Valid UserCreateDTO user);
