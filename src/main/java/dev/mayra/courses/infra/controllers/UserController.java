@@ -4,7 +4,6 @@ import dev.mayra.courses.entities.user.UserCreateDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
 import dev.mayra.courses.app.services.UserService;
 import dev.mayra.courses.infra.controllers.docs.UserControllerDoc;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +38,12 @@ public class UserController implements UserControllerDoc {
 
     return new ResponseEntity<>(userCreated, HttpStatus.CREATED);
   }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<UserResponseDTO> updateAUser(@PathVariable Integer id, @RequestBody @Valid UserCreateDTO user) throws Exception {
+    UserResponseDTO userCreated = userService.update(id, user);
+
+    return new ResponseEntity<>(userCreated, HttpStatus.OK);
+  }
+
 }

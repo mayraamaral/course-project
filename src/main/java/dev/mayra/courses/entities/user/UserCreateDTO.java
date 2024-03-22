@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @Valid
 public class UserCreateDTO {
+
   @NotBlank(message = "The username can't be blank")
   @Schema(description = "Fill the username", required = true, example = "namelastname")
   @Pattern(regexp = "^[a-z]+$", message = "The username must contain only lowercase characters, without numerals and spaces")
@@ -23,6 +24,10 @@ public class UserCreateDTO {
   @NotBlank(message = "The email can't be blank")
   @Schema(description = "Fill the email", required = true, example = "email@email.com")
   private String email;
+
+  @NotBlank(message = "The role can't be blank")
+  @Schema(description = "Fill the role", required = true, example = "ROLE_STUDENT")
+  private String roleName;
 
   @NotBlank(message = "The password can't be blank")
   @Schema(description = "Fill the password", required = true, example = "mypassword")

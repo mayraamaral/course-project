@@ -25,9 +25,6 @@ public class User implements UserDetails {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer idUser;
 
-  @Getter
-  @Pattern(regexp = "^[a-z]+$", message =
-      "The username must contain only lowercase characters, without numerals and spaces.")
   @Column(name = "user_name")
   private String username;
 

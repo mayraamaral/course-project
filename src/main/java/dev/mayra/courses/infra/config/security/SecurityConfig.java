@@ -41,7 +41,9 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper)))
         .authorizeHttpRequests((authz) -> authz
             .requestMatchers("/auth/**", "/").permitAll()
-            .requestMatchers(HttpMethod.POST, "/user/**").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/user/**").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
             .anyRequest().authenticated());
 
     http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

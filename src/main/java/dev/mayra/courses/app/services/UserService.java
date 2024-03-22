@@ -1,16 +1,19 @@
 package dev.mayra.courses.app.services;
 
+import dev.mayra.courses.entities.role.Role;
 import dev.mayra.courses.entities.user.UserCreateDTO;
 import dev.mayra.courses.entities.user.UserResponseDTO;
 import dev.mayra.courses.entities.user.User;
+import dev.mayra.courses.infra.repositories.RoleRepository;
 import dev.mayra.courses.infra.repositories.UserRepository;
-import dev.mayra.courses.utils.LeastPrivilegedRole;
 import dev.mayra.courses.utils.Mapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
   private final UserRepository userRepository;
-  private final LeastPrivilegedRole leastPrivilegedRole;
+  private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
   private final Mapper mapper;
 
@@ -43,22 +46,66 @@ public class UserService {
 
   public UserResponseDTO create(UserCreateDTO userToBeCreated) throws Exception {
 
-    if(userRepository.findByUsername(userToBeCreated.getUsername()).isPresent()) {
-      throw new Exception("Username already taken");
-    }
-
-    if(userRepository.findByEmail(userToBeCreated.getEmail()).isPresent()) {
-      throw new Exception("Email already registered");
-    }
+    checkIfUsernameOrEmailAreTaken(userToBeCreated);
 
     User user = mapper.convertToEntity(userToBeCreated, User.class);
-    String encryptedPassword = passwordEncoder.encode(userToBeCreated.getPassword());
-    user.setPassword(encryptedPassword);
+    user.setRole(getRoleByName(userToBeCreated.getRoleName()));
+    user = getUserWithEncryptedPassword(user);
     user.setCreatedAt(LocalDate.now());
-    user.setRole(leastPrivilegedRole.get());
 
     User userCreated = userRepository.save(user);
 
     return mapper.convertToDTO(userCreated, UserResponseDTO.class);
+  }
+
+  public UserResponseDTO update(Integer id, UserCreateDTO userUpdated) throws Exception {
+    Optional<User> oldUserOpt = userRepository.findById(id);
+
+    if(oldUserOpt.isEmpty()) {
+      throw new Exception("User not found");
+    }
+
+    checkIfUsernameOrEmailAreTaken(userUpdated);
+
+    User user = oldUserOpt.get();
+
+    BeanUtils.copyProperties(userUpdated, user);
+
+    User userFromDb = userRepository.save(user);
+
+    return mapper.convertToDTO(userFromDb, UserResponseDTO.class);
+  }
+
+  public User getUserWithEncryptedPassword(User user) {
+    String encryptedPassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encryptedPassword);
+
+    return user;
+  }
+
+  public void checkIfUsernameOrEmailAreTaken(UserCreateDTO user) throws Exception {
+    if(usernameExists(user.getUsername())) {
+      throw new Exception("Username already taken");
+    }
+
+    if(emailExists(user.getEmail())) {
+      throw new Exception("Email already registered");
+    }
+  }
+
+  public boolean usernameExists(String username) throws Exception {
+    return userRepository.findByUsername(username).isPresent();
+  }
+
+  public boolean emailExists(String email) throws Exception {
+    return userRepository.findByEmail(email).isPresent();
+  }
+
+  public Role getRoleByName(String roleName) throws Exception {
+    Optional<Role> role = roleRepository.findByName(roleName);
+
+    if(role.isEmpty()) throw new Exception("Role not found");
+
+    return role.get();
   }
 }

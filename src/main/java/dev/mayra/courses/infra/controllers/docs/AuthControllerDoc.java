@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface AuthControllerDoc {
 
-  @Operation(summary = "Authenticates a user if credentials are correct")
+  @Operation(summary = "Authenticates an user if credentials are correct")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
       @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
