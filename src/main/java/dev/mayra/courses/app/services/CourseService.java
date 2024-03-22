@@ -9,6 +9,7 @@ import dev.mayra.courses.infra.repositories.CourseRepository;
 import dev.mayra.courses.utils.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +28,7 @@ public class CourseService {
     return courses;
   }
 
-  public List<CourseResponseDTO> listAllOrOnlyActives(String status) {
+  public List<CourseResponseDTO> listAllOrByStatus(String status) {
       CourseStatus statusEnum = null;
       try {
 
@@ -38,7 +39,7 @@ public class CourseService {
         return courses;
 
       } catch (IllegalArgumentException ex) {
-        throw new IllegalArgumentException("Status " + status + " not found");
+        throw new NotFoundException("Status " + status + " not found");
       }
   }
 
@@ -59,7 +60,7 @@ public class CourseService {
     return coursesDto;
   }
 
-  public CourseResponseDTO listByCode(String courseCode) throws Exception {
+  public CourseResponseDTO listByCode(String courseCode) {
     Course course = findByCode(courseCode);
 
     return mapper.convertToDTO(course, CourseResponseDTO.class);
@@ -100,17 +101,17 @@ public class CourseService {
     return mapper.convertToDTO(courseInactivated, CourseResponseDTO.class);
   }
 
-  public void delete(String courseCode) throws Exception {
+  public void delete(String courseCode) {
     Course course = findByCode(courseCode);
 
     courseRepository.delete(course);
   }
 
-  public Course findByCode(String courseCode) throws Exception {
+  public Course findByCode(String courseCode) throws NotFoundException {
     Optional<Course> courseOpt = courseRepository.findByCode(courseCode);
 
     if(courseOpt.isEmpty()) {
-      throw new Exception("Code not found");
+      throw new NotFoundException("Code not found");
     }
 
     return courseOpt.get();

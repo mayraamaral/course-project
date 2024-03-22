@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -35,18 +36,22 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
-  public UserResponseDTO findById(Integer id) throws Exception {
+  public UserResponseDTO findById(Integer id) {
     Optional<User> user = userRepository.findById(id);
 
     if(user.isEmpty()) {
-      throw new Exception("User not found");
+      throw new NotFoundException("User not found");
     }
 
     return mapper.convertToDTO(user.get(), UserResponseDTO.class);
   }
 
-  public UserMinifiedDTO findByUsername(String username) throws Exception {
+  public UserMinifiedDTO findByUsername(String username) {
     Optional<UserMinifiedDTO> user = userRepository.findByUsernameMinified(username);
+
+    if(user.isEmpty()) {
+      throw new NotFoundException("Username not found");
+    }
 
     return user.get();
   }
@@ -74,7 +79,7 @@ public class UserService {
     return mapper.convertToDTO(userFromDb, UserResponseDTO.class);
   }
 
-  public void delete(Integer id) throws Exception {
+  public void delete(Integer id) {
     User user = findUserById(id);
 
     userRepository.delete(user);
@@ -97,21 +102,21 @@ public class UserService {
     }
   }
 
-  public User findUserByUsername(String username) throws Exception {
+  public User findUserByUsername(String username) {
     Optional<User> user = userRepository.findByUsername(username);
 
     if(user.isEmpty()) {
-      throw new Exception("User not found");
+      throw new NotFoundException("User not found");
     }
 
     return user.get();
   }
 
-  public User findUserById(Integer id) throws Exception {
+  public User findUserById(Integer id) {
     Optional<User> user = userRepository.findById(id);
 
     if(user.isEmpty()) {
-      throw new Exception("User not found");
+      throw new NotFoundException("User not found");
     }
 
     return user.get();
@@ -137,10 +142,10 @@ public class UserService {
     return userRepository.findByEmail(email).isPresent();
   }
 
-  public Role getRoleByName(String roleName) throws Exception {
+  public Role getRoleByName(String roleName) {
     Optional<Role> role = roleRepository.findByName(roleName);
 
-    if(role.isEmpty()) throw new Exception("Role not found");
+    if(role.isEmpty()) throw new NotFoundException("Role not found");
 
     return role.get();
   }

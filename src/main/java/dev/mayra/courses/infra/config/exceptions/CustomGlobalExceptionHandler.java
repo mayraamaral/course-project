@@ -4,6 +4,7 @@ import dev.mayra.courses.utils.errors.ErrorMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,18 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     Map<String, Object> body = ErrorMap.get(errorMsg, msg, statusCode);
 
     return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<Object> handleException(NotFoundException exception,
+                                                HttpServletRequest request) {
+    String errorMsg = exception.getMessage();
+    int statusCode = HttpStatus.NOT_FOUND.value();
+    String msg = HttpStatus.NOT_FOUND.getReasonPhrase();
+
+    Map<String, Object> body = ErrorMap.get(errorMsg, msg, statusCode);
+
+    return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(BadCredentialsException.class)

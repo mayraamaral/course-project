@@ -29,12 +29,12 @@ public class UserController implements UserControllerDoc {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) throws Exception {
+  public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) {
     return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
   }
 
   @GetMapping("/by-username/{username}")
-  public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username) throws Exception {
+  public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username) {
     return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
   }
 
@@ -53,7 +53,7 @@ public class UserController implements UserControllerDoc {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity deleteAnUser(@PathVariable Integer id) throws Exception {
+  public ResponseEntity deleteAnUser(@PathVariable Integer id) {
     userService.delete(id);;
 
     return ResponseEntity.ok().build();

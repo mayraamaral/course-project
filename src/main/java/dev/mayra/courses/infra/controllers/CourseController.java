@@ -28,7 +28,7 @@ public class CourseController implements CourseControllerDoc {
 
   @GetMapping
   public ResponseEntity<List<CourseResponseDTO>> listAllOrByStatus(@RequestParam(required = false) String status) {
-    return new ResponseEntity<>(courseService.listAllOrOnlyActives(status), HttpStatus.OK);
+    return new ResponseEntity<>(courseService.listAllOrByStatus(status), HttpStatus.OK);
   }
 
   @PutMapping("/inactivate/{code}")
@@ -37,14 +37,14 @@ public class CourseController implements CourseControllerDoc {
   }
 
   @DeleteMapping("/{code}")
-  public ResponseEntity deleteAnCourse(@PathVariable String code) throws Exception {
+  public ResponseEntity deleteAnCourse(@PathVariable String code) {
     courseService.delete(code);
 
     return ResponseEntity.ok().build();
   }
 
   @GetMapping("/{code}")
-  public ResponseEntity<CourseResponseDTO> listByCode(@PathVariable String code) throws Exception {
+  public ResponseEntity<CourseResponseDTO> listByCode(@PathVariable String code) {
     return new ResponseEntity<>(courseService.listByCode(code), HttpStatus.OK);
   }
 

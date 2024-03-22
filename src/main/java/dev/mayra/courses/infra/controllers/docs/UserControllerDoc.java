@@ -30,11 +30,13 @@ public interface UserControllerDoc {
 
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
-      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
   })
   @Operation(summary = "List the requested user by id if it exists, and if you are an admin")
   public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) throws Exception;
@@ -42,22 +44,24 @@ public interface UserControllerDoc {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = UserMinifiedDTO.class))),
-      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
   })
   @Operation(summary = "List the requested user by username if it exists, and if you are an admin")
-  public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username) throws Exception;
+  public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username);
 
   @Operation(summary = "Creates a new user")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Created"),
-      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorListDTO.class))),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
   public ResponseEntity<UserResponseDTO> createAnUser(@RequestBody @Valid UserCreateDTO user) throws Exception;
@@ -65,23 +69,27 @@ public interface UserControllerDoc {
   @Operation(summary = "Updates a user if the user exists, and if you are an admin")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
-      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorListDTO.class))),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
   })
   public ResponseEntity<UserResponseDTO> updateAnUser(@PathVariable Integer id, @RequestBody @Valid UserCreateDTO user) throws Exception;
 
   @Operation(summary = "Deletes a user if the user exists, and if you are an admin")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
-      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
   })
-  public ResponseEntity deleteAnUser(@PathVariable Integer id) throws Exception;
+  public ResponseEntity deleteAnUser(@PathVariable Integer id);
 }
 
