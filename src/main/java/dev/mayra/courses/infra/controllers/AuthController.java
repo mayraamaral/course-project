@@ -2,6 +2,7 @@ package dev.mayra.courses.infra.controllers;
 
 import dev.mayra.courses.app.services.AuthService;
 import dev.mayra.courses.entities.user.UserLoginDTO;
+import dev.mayra.courses.infra.controllers.docs.AuthControllerDoc;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequiredArgsConstructor
 @Tag(name = "Auth", description = "Operations related to login")
-public class AuthController {
+public class AuthController implements AuthControllerDoc {
   private final AuthService authService;
 
   @PostMapping
