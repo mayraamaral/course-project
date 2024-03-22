@@ -31,7 +31,7 @@ public class CourseController implements CourseControllerDoc {
     return new ResponseEntity<>(courseService.listAllOrOnlyActives(status), HttpStatus.OK);
   }
 
-  @PutMapping("/{code}")
+  @PutMapping("/inactivate/{code}")
   public ResponseEntity<CourseResponseDTO> inactivateAnCourse(@PathVariable String code) throws Exception {
     return new ResponseEntity<>(courseService.inactivate(code), HttpStatus.OK);
   }
