@@ -19,7 +19,7 @@ public class CourseCreateDTO {
   private String name;
 
   @NotBlank(message = "The course code can't be blank")
-  @Schema(description = "Fill the course code", required = true, example = "course-code")
+  @Schema(description = "Fill the course code", required = true, example = "spring-boot")
   @Pattern(regexp = "^[A-Za-z]$|^[A-Za-z][A-Za-z\\-]*[A-Za-z]$",
       message = "The course code must be alphanumeric, without spaces or special characters, " +
           "but it can " +

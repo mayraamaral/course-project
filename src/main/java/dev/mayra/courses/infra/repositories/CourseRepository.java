@@ -13,13 +13,13 @@ import java.util.Optional;
 public interface CourseRepository extends JpaRepository<Course, String> {
 
   @Query("select new dev.mayra.courses.entities.course.CourseResponseDTO(" +
-      "c.name, c.code, new dev.mayra.courses.entities.user.InstructorDTO(u.idUser, u.name), " +
+      "c.name, c.code, new dev.mayra.courses.entities.user.InstructorDTO(u.idUser, u.name, u.username), " +
       "c.description, c.status, c.createdAt, c.inactivatedAt) " +
       "from Course c inner join User u on c.instructor.idUser = u.idUser")
   public List<CourseResponseDTO> findAllDto();
 
   @Query("select new dev.mayra.courses.entities.course.CourseResponseDTO(" +
-      "c.name, c.code, new dev.mayra.courses.entities.user.InstructorDTO(u.idUser, u.name), " +
+      "c.name, c.code, new dev.mayra.courses.entities.user.InstructorDTO(u.idUser, u.name, u.username), " +
       "c.description, c.status, c.createdAt, c.inactivatedAt) " +
       "from Course c inner join User u on c.instructor.idUser = u.idUser " +
       "where (:status is null or c.status = :status)")

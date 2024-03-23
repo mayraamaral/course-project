@@ -119,6 +119,10 @@ public class CourseService {
     return courseOpt.get();
   }
 
+  public boolean isTheGivenCourseInactive(Course course) throws Exception {
+    return course.getStatus().equals(CourseStatus.INACTIVE);
+  }
+
   public void checkIfCourseIsInactive(String courseCode) throws Exception {
     Course course = findByCode(courseCode);
 
