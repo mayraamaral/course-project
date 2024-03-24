@@ -2,16 +2,17 @@
 ## Project Specification
 - **Language:** Java 21;
 - **Framework:** Spring v. 3.1.9;
-- Spring Data JPA;
 - **SGBD/Database:** MySQL;
 - **Migrations:** Flyway;
 - **Docs:** Open API Swagger;
+- **Email**: JavaMail API & Mailgun;
+- Spring Data JPA;
 - Lombok.
 ## Development Tools
 - **IDE:** IntelliJ;
 - **Database client:** DBeaver;
 - **Diagram tool:** Lucidchart;
-- **Requests:** Swagger UI.
+- **Requests:** Swagger UI / HTTPie.
 ## Instructions
 ### Locally
 Database creation on Docker:  
@@ -33,4 +34,4 @@ CREATE USER 'your_name'@'%' IDENTIFIED BY 'your_password';
 GRANT ALL ON *.* TO 'your_name'@'%' WITH GRANT OPTION;
 ```
 ### Observation
-For security concerns, the datasource URL, user and password do not have the current values in the ```application.properties``` file, instead they are passed via VM Options.
+For security concerns URLs, users and passwords do not have the current values in the ```application.properties``` file, instead they are passed via VM Options.
