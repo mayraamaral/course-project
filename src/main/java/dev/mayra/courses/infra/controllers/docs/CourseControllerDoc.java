@@ -62,7 +62,6 @@ public interface CourseControllerDoc {
   @Operation(summary = "List the requested course from its code if it exists, and if you are an admin")
   public ResponseEntity<CourseResponseDTO> listByCode(@PathVariable String code);
 
-  @Operation(summary = "Creates a new course")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Created"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -71,9 +70,9 @@ public interface CourseControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Creates a new course")
   public ResponseEntity<CourseResponseDTO> create(@RequestBody @Valid CourseCreateDTO course) throws Exception;
 
-  @Operation(summary = "Inactivates a course if the user exists, and if you are an admin")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -84,9 +83,9 @@ public interface CourseControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Inactivates a course if the user exists, and if you are an admin")
   public ResponseEntity<CourseResponseDTO> inactivateAnCourse(@PathVariable String code) throws Exception;
 
-  @Operation(summary = "Deletes a course if the course exists, and if you are an admin")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -97,5 +96,6 @@ public interface CourseControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Deletes a course if the course exists, and if you are an admin")
   public ResponseEntity deleteAnCourse(@PathVariable String code);
 }

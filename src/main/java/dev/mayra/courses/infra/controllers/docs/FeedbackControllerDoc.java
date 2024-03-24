@@ -19,7 +19,6 @@ import java.util.List;
 
 public interface FeedbackControllerDoc {
 
-  @Operation(summary = "Creates a new feedback for the logged user, if they are enrolled to the course")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Created"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -30,6 +29,7 @@ public interface FeedbackControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Creates a new feedback for the logged user, if they are enrolled to the course")
   public ResponseEntity<FeedbackResponseDTO> createAFeedback(HttpServletRequest request, @RequestBody @Valid FeedbackCreateDTO feedback) throws Exception;
 
   @ApiResponses(value = {

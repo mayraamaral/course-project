@@ -19,13 +19,13 @@ import java.util.List;
 
 public interface UserControllerDoc {
 
-  @Operation(summary = "List all users, if you are an admin")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
       @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "List all users, if you are an admin")
   public ResponseEntity<List<UserResponseDTO>> listAllUsers();
 
   @ApiResponses(value = {
@@ -55,7 +55,6 @@ public interface UserControllerDoc {
   @Operation(summary = "List the requested user by username if it exists, and if you are an admin")
   public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username);
 
-  @Operation(summary = "Creates a new user")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Created"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -64,9 +63,9 @@ public interface UserControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Creates a new user")
   public ResponseEntity<UserResponseDTO> createAnUser(@RequestBody @Valid UserCreateDTO user) throws Exception;
 
-  @Operation(summary = "Updates a user if the user exists, and if you are an admin")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -77,9 +76,9 @@ public interface UserControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Updates a user if the user exists, and if you are an admin")
   public ResponseEntity<UserResponseDTO> updateAnUser(@PathVariable Integer id, @RequestBody @Valid UserCreateDTO user) throws Exception;
 
-  @Operation(summary = "Deletes a user if the user exists, and if you are an admin")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -90,6 +89,7 @@ public interface UserControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Deletes a user if the user exists, and if you are an admin")
   public ResponseEntity deleteAnUser(@PathVariable Integer id);
 }
 
