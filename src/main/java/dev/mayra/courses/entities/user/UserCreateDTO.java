@@ -2,6 +2,7 @@ package dev.mayra.courses.entities.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -22,6 +23,7 @@ public class UserCreateDTO {
   private String name;
 
   @NotBlank(message = "The email can't be blank")
+  @Email(message = "Must be a valid email")
   @Schema(description = "Fill the email", required = true, example = "email@email.com")
   private String email;
 

@@ -47,6 +47,10 @@ public class SecurityConfig {
             .requestMatchers(GET, "/user/**").hasRole("ADMIN")
             .requestMatchers(DELETE, "/user/**").hasRole("ADMIN")
             .requestMatchers("/course/**").hasRole("ADMIN")
+            .requestMatchers(GET, "/feedback/**").hasRole("ADMIN")
+            .requestMatchers(GET, "/enrollment/**").hasRole("ADMIN")
+            .requestMatchers(POST, "/feedback/**").authenticated()
+            .requestMatchers(POST, "/enrollment/**").authenticated()
             .requestMatchers(POST, "/user/**").permitAll()
             .anyRequest().authenticated());
 

@@ -9,6 +9,7 @@ import dev.mayra.courses.utils.Mapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -39,6 +40,16 @@ public class EnrollmentService {
     Enrollment enrollmentSaved = enrollmentRepository.save(enrollment);
 
     return mapper.convertToDTO(enrollmentSaved, EnrollmentResponseDTO.class);
+  }
+
+  public Enrollment findById(Integer id) {
+    Optional<Enrollment> enrollmentOpt = enrollmentRepository.findById(id);
+
+    if(enrollmentOpt.isEmpty()) {
+      throw new NotFoundException("Enrollment not found");
+    }
+
+    return enrollmentOpt.get();
   }
 
   public void checkIfCourseIsActive(Course course) throws Exception {
