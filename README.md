@@ -2,12 +2,12 @@
 ## Project Specification
 - **Language:** Java 21;
 - **Framework:** Spring v. 3.1.9;
+- Spring Data JPA;
+- Lombok;
 - **SGBD/Database:** MySQL;
 - **Migrations:** Flyway;
 - **Docs:** Open API Swagger;
-- **Email**: JavaMail API & Mailgun;
-- Spring Data JPA;
-- Lombok.
+- **Email**: JavaMail API & Mailgun.
 ## Development Tools
 - **IDE:** IntelliJ;
 - **Database client:** DBeaver;
