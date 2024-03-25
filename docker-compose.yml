@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    command: ./mvnw spring-boot:run
+    environment:
+      JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS}
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    volumes:
+      - .:/usr/app
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mysql/mysql-server:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: app
+      MYSQL_DATABASE: db
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - 3306:3306
+    expose:
+      - 3306

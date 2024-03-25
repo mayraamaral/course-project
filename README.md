@@ -19,7 +19,21 @@
 - **Diagram tool:** Lucidchart;
 - **Requests:** Swagger UI / HTTPie.
 ## Instructions
-### Locally
+You can choose either to run with Docker Compose or to run two containers separated, both options
+are described below:  
+### Running option #1 - Locally with Docker Compose
+Just fill the fields with the correct information and run the command in the terminal 
+inside the project root folder and you will have both containers running.
+```shell
+MYSQL_PASSWORD=mysql JAVA_TOOL_OPTIONS="-Dspring.datasource.url=\"jdbc:mysql://db:3306/db\" AND OTHERS VM OPTIONS" docker-compose up
+```
+### Running option #2 - Locally with Docker
+#### Database creation on Docker
+```shell
+docker run -d -p 3306:3306 --name mysql \
+-e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_USER=app -e MYSQL_DATABASE=db \
+-e MYSQL_PASSWORD=mysql mysql/mysql-server:latest
+```
 #### Project build
 ```shell
 docker build -t courses .
@@ -27,24 +41,6 @@ docker build -t courses .
 #### Running
 ```shell
 docker run -p 8080:8080 -e JAVA_TOOL_OPTIONS="VM_OPTIONS" --name courses courses
-```
-#### Database creation on Docker  
-```shell
-docker run -d -p 3306:3306 --name mysql \
--e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_USER=root -e MYSQL_DATABASE=db \
--e MYSQL_PASSWORD=mysql mysql/mysql-server:latest
-```
-#### Accessing MySQL shell to create a user with privileges 
-```shell
-docker exec -it mysql bash -l
-```
-```shell
-mysql -u root -p
-```
-#### Creating the user and granting privileges
-```sql
-CREATE USER 'your_name'@'%' IDENTIFIED BY 'your_password';
-GRANT ALL ON *.* TO 'your_name'@'%' WITH GRANT OPTION;
 ```
 ### Observation
 For security concerns URLs, users and passwords do not have the current values in the ```application.properties``` file, instead they are passed via VM Options.

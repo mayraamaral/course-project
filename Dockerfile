@@ -11,4 +11,4 @@ RUN cp /target/courses-0.0.1-SNAPSHOT.jar /app/courses.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "coursesS.jar"]
+ENTRYPOINT ["java", "-jar", "courses.jar"]
