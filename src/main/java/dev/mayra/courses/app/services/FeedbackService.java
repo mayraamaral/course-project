@@ -46,6 +46,8 @@ public class FeedbackService {
 
     Enrollment enrollment = enrollmentService.findById(feedbackToBeCreated.getIdEnrollment());
 
+    checkIfUserAlreadyGaveFeedback(enrollment);
+
     checkIfLoggedUserIsEnrolledToCourse(request, enrollment);
 
     Feedback feedback = mapper.convertToEntity(feedbackToBeCreated, Feedback.class);
@@ -63,6 +65,14 @@ public class FeedbackService {
 
   public boolean isFeedbackRatingLowerThan(int rateToCheck, Feedback feedback) {
     return feedback.getRating() < rateToCheck;
+  }
+
+  public void checkIfUserAlreadyGaveFeedback(Enrollment enrollment) throws Exception {
+    Optional<Feedback> feedbackOpt = feedbackRepository.findByEnrollment(enrollment);
+
+    if(feedbackOpt.isPresent()) {
+      throw new Exception("You already gave feedback to this course");
+    }
   }
 
   public void checkIfLoggedUserIsEnrolledToCourse(HttpServletRequest request, Enrollment enrollment) throws Exception {
