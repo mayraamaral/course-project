@@ -47,7 +47,7 @@ public class SecurityConfig {
             .requestMatchers(GET, "/user/**").hasRole("ADMIN")
             .requestMatchers(DELETE, "/user/**").hasRole("ADMIN")
             .requestMatchers("/course/**").hasRole("ADMIN")
-            .requestMatchers(GET, "/feedback/**").hasRole("ADMIN")
+            .requestMatchers(GET, "/feedback/**").hasAnyRole("ADMIN", "INSTRUCTOR")
             .requestMatchers(POST, "/feedback/**").authenticated()
             .requestMatchers(GET, "/enrollment/**").hasAnyRole("ADMIN", "INSTRUCTOR")
             .requestMatchers(POST, "/enrollment/**").authenticated()
