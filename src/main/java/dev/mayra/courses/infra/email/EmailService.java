@@ -30,7 +30,7 @@ public class EmailService {
     email.setTo(instructorEmail);
     email.setSubject("Your course " + courseName + " received a new feedback with rating lower than 6");
 
-    String message = "Hello, " + enrollment.getCourse().getInstructor().getName() + "!\n\n  " +
+    String message = "Hello, " + enrollment.getCourse().getInstructor().getName() + "!\n\n" +
         "The user " + enrollment.getUser().getUsername() + " gave your course a new feedback.\n\n" +
         "Check the details: \n" +
         "\n" +
