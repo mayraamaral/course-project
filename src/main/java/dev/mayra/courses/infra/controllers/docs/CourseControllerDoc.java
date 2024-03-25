@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +35,11 @@ public interface CourseControllerDoc {
 
   })
   @Operation(summary = "List all courses or list by status if it is present, and if you are an admin")
-  public ResponseEntity<List<CourseResponseDTO>> listAllOrByStatus(@RequestParam(required = false) String status);
+  public ResponseEntity<Page<List<CourseResponseDTO>>> listAllOrByStatus(
+      @RequestParam(required = false, defaultValue = "0") int page,
+      @RequestParam(required = false, defaultValue = "10") int size,
+      @RequestParam(required = false, defaultValue = "createdAt") String sort,
+      @RequestParam(required = false) String status);
 
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),

@@ -8,11 +8,15 @@ import dev.mayra.courses.entities.user.User;
 import dev.mayra.courses.infra.repositories.CourseRepository;
 import dev.mayra.courses.utils.Mapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +33,7 @@ public class CourseService {
     return courses;
   }
 
-  public List<CourseResponseDTO> listAllOrByStatus(String status) {
+  public Page<List<CourseResponseDTO>> listAllOrByStatus(String status, Pageable pageable) {
       try {
         CourseStatus statusEnum = null;
 
@@ -37,11 +41,11 @@ public class CourseService {
           statusEnum = CourseStatus.valueOf(status.toUpperCase());
         }
 
-        List<CourseResponseDTO> courses = courseRepository.findAllCoursesOrByStatus(statusEnum);
+        Page<List<CourseResponseDTO>> courses = courseRepository.findAllCoursesOrByStatus(statusEnum, pageable);
 
         return courses;
       } catch (IllegalArgumentException ex) {
-        return new ArrayList<>();
+        return new PageImpl<>(Collections.emptyList(), pageable, 0);
       }
   }
 
