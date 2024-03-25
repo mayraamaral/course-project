@@ -28,7 +28,7 @@ public class EmailService {
 
     email.setFrom(from);
     email.setTo(instructorEmail);
-    email.setSubject("Your course " + courseName + " received a new feedback with rating lower than 6");
+    email.setSubject("Your course \"" + courseName + "\" received a new feedback with rating lower than 6");
 
     String message = "Hello, " + enrollment.getCourse().getInstructor().getName() + "!\n\n" +
         "The user " + enrollment.getUser().getUsername() + " gave your course a new feedback.\n\n" +
@@ -56,7 +56,7 @@ public class EmailService {
 
     helper.setFrom(from);
     helper.setTo(userToSent.getEmail());
-    helper.setSubject("The Nps Courses Report You Requested Is Here!");
+    helper.setSubject("The Courses Nps Report You Requested Is Here!");
 
     String message = "Hello, " + userToSent.getName() + "\n" +
         "The report you requested is attached to this email.\n\n" +
