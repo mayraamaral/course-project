@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/enrollment")
 @Validated
@@ -19,10 +21,20 @@ import org.springframework.web.bind.annotation.*;
 public class EnrollmentController implements EnrollmentControllerDoc {
   private final EnrollmentService enrollmentService;
 
-  @PostMapping("/{courseCode}")
-  public ResponseEntity<EnrollmentResponseDTO> create(HttpServletRequest request, @PathVariable String courseCode) throws Exception {
+  @PostMapping
+  public ResponseEntity<EnrollmentResponseDTO> create(HttpServletRequest request, @RequestParam String courseCode) throws Exception {
     EnrollmentResponseDTO enrollment = enrollmentService.create(request, courseCode);
 
     return new ResponseEntity<>(enrollment, HttpStatus.CREATED);
+  }
+
+  @GetMapping
+  public ResponseEntity<List<EnrollmentResponseDTO>> listAllEnrollments() {
+    return new ResponseEntity<>(enrollmentService.listAllEnrollments(), HttpStatus.OK);
+  }
+
+  @GetMapping("/by-course/{code}")
+  public ResponseEntity<List<EnrollmentResponseDTO>> listAllEnrollmentsByCourseCode(@PathVariable String code) throws Exception {
+    return new ResponseEntity<>(enrollmentService.listAllByCourseCode(code), HttpStatus.OK);
   }
 }

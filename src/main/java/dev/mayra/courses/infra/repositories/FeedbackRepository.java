@@ -1,5 +1,6 @@
 package dev.mayra.courses.infra.repositories;
 
+import dev.mayra.courses.entities.enrollment.Enrollment;
 import dev.mayra.courses.entities.feedback.Feedback;
 import dev.mayra.courses.entities.feedback.FeedbackResponseDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
   @Query("select new dev.mayra.courses.entities.feedback.FeedbackResponseDTO(" +
@@ -21,4 +23,6 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
       "inner join Course c on e.course.code = c.code " +
       "where c.code = :courseCode")
   public List<FeedbackResponseDTO> findAllByCourseCode(@Param("courseCode") String courseCode);
+
+  public Optional<Feedback> findByEnrollment(Enrollment enrollment);
 }

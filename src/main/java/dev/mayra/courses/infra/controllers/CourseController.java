@@ -5,6 +5,11 @@ import dev.mayra.courses.entities.course.CourseCreateDTO;
 import dev.mayra.courses.entities.course.CourseResponseDTO;
 import dev.mayra.courses.infra.controllers.docs.CourseControllerDoc;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,8 +32,13 @@ public class CourseController implements CourseControllerDoc {
   private final CourseService courseService;
 
   @GetMapping
-  public ResponseEntity<List<CourseResponseDTO>> listAllOrByStatus(@RequestParam(required = false) String status) {
-    return new ResponseEntity<>(courseService.listAllOrByStatus(status), HttpStatus.OK);
+  public ResponseEntity<Page<List<CourseResponseDTO>>> listAllOrByStatus(
+      @RequestParam(required = false, defaultValue = "0") int page,
+      @RequestParam(required = false, defaultValue = "10") int size,
+      @RequestParam(required = false, defaultValue = "createdAt") String sort,
+      @RequestParam(required = false) String status) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+    return new ResponseEntity<>(courseService.listAllOrByStatus(status, pageable), HttpStatus.OK);
   }
 
   @PutMapping("/inactivate/{code}")

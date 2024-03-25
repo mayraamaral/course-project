@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface AuthControllerDoc {
 
-  @Operation(summary = "Authenticates an user if credentials are correct")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "OK"),
       @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
@@ -22,5 +21,6 @@ public interface AuthControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Authenticates an user if credentials are correct")
   public ResponseEntity<String> auth(@RequestBody @Valid UserLoginDTO user);
 }

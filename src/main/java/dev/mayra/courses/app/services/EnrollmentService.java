@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,29 @@ public class EnrollmentService {
     Enrollment enrollmentSaved = enrollmentRepository.save(enrollment);
 
     return mapper.convertToDTO(enrollmentSaved, EnrollmentResponseDTO.class);
+  }
+
+  public List<EnrollmentResponseDTO> listAllEnrollments() {
+    List<Enrollment> enrollments = enrollmentRepository.findAll();
+
+    List<EnrollmentResponseDTO> enrollmentsDto = enrollments.stream()
+        .map(entity -> mapper.convertToDTO(entity, EnrollmentResponseDTO.class))
+        .collect(Collectors.toList());
+
+    return enrollmentsDto;
+  }
+
+  public List<EnrollmentResponseDTO> listAllByCourseCode(String courseCode) throws Exception {
+
+    Course course = courseService.findByCode(courseCode);
+
+    List<Enrollment> enrollments = enrollmentRepository.findAllByCourse(course);
+
+    List<EnrollmentResponseDTO> enrollmentsDto = enrollments.stream()
+        .map(entity -> mapper.convertToDTO(entity, EnrollmentResponseDTO.class))
+        .collect(Collectors.toList());
+
+    return enrollmentsDto;
   }
 
   public Enrollment findById(Integer id) {

@@ -19,7 +19,6 @@ import java.util.List;
 
 public interface FeedbackControllerDoc {
 
-  @Operation(summary = "Creates a new feedback for the logged user, if they are enrolled to the course")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "Created"),
       @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
@@ -30,6 +29,7 @@ public interface FeedbackControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
+  @Operation(summary = "Creates a new feedback for the logged user, if they are enrolled to the course")
   public ResponseEntity<FeedbackResponseDTO> createAFeedback(HttpServletRequest request, @RequestBody @Valid FeedbackCreateDTO feedback) throws Exception;
 
   @ApiResponses(value = {
@@ -43,7 +43,7 @@ public interface FeedbackControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List the feedbacks of a course from its code if it exists, and if you are an admin")
+  @Operation(summary = "Lists the feedbacks of a course from its code if it exists, and if you are an admin or instructor")
   public ResponseEntity<List<FeedbackResponseDTO>> listAllFeedbacksByCourseCode(@PathVariable String courseCode);
 
   @ApiResponses(value = {
@@ -55,6 +55,6 @@ public interface FeedbackControllerDoc {
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List all feedbacks of all courses, and if you are an admin")
+  @Operation(summary = "Lists all feedbacks of all courses, and if you are an admin or instructor")
   public ResponseEntity<List<FeedbackResponseDTO>> listAllFeedbacks();
 }

@@ -37,4 +37,5 @@ public class FeedbackController implements FeedbackControllerDoc {
   public ResponseEntity<FeedbackResponseDTO> createAFeedback(HttpServletRequest request, @RequestBody @Valid FeedbackCreateDTO feedback) throws Exception {
     return new ResponseEntity<>(feedbackService.create(request, feedback), HttpStatus.CREATED);
   }
+
 }
