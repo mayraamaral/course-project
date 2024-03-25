@@ -35,7 +35,7 @@ public interface EnrollmentControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List all enrollments, if you are an admin or instructor")
+  @Operation(summary = "Lists all enrollments, if you are an admin or instructor")
   public ResponseEntity<List<EnrollmentResponseDTO>> listAllEnrollments();
 
   @ApiResponses(value = {
@@ -46,6 +46,6 @@ public interface EnrollmentControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List all enrollments of a course, if they are not enrolled to the course yet")
+  @Operation(summary = "Lists all enrollments of a course, if they are not enrolled to the course yet")
   public ResponseEntity<List<EnrollmentResponseDTO>> listAllEnrollmentsByCourseCode(@PathVariable String courseCode) throws Exception;
 }

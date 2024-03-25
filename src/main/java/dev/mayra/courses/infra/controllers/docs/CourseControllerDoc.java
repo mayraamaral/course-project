@@ -34,7 +34,7 @@ public interface CourseControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
 
   })
-  @Operation(summary = "List all courses or list by status if it is present, and if you are an admin")
+  @Operation(summary = "Lists all courses or list by status if it is present, and if you are an admin")
   public ResponseEntity<Page<List<CourseResponseDTO>>> listAllOrByStatus(
       @RequestParam(required = false, defaultValue = "0") int page,
       @RequestParam(required = false, defaultValue = "10") int size,
@@ -52,7 +52,7 @@ public interface CourseControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List all courses from an instructor, and if you are an admin")
+  @Operation(summary = "Lists all courses from an instructor, and if you are an admin")
   public ResponseEntity<List<CourseResponseDTO>> listAllByInstructor(@PathVariable String username) throws Exception;
 
   @ApiResponses(value = {
@@ -66,7 +66,7 @@ public interface CourseControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List the requested course from its code if it exists, and if you are an admin")
+  @Operation(summary = "Lists the requested course from its code if it exists, and if you are an admin")
   public ResponseEntity<CourseResponseDTO> listByCode(@PathVariable String code);
 
   @ApiResponses(value = {

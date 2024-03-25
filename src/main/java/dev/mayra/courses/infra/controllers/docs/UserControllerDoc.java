@@ -25,7 +25,7 @@ public interface UserControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List all users, if you are an admin")
+  @Operation(summary = "Lists all users, if you are an admin")
   public ResponseEntity<List<UserResponseDTO>> listAllUsers();
 
   @ApiResponses(value = {
@@ -38,7 +38,7 @@ public interface UserControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List the requested user by id if it exists, and if you are an admin")
+  @Operation(summary = "Lists the requested user by id if it exists, and if you are an admin")
   public ResponseEntity<UserResponseDTO> listById(@PathVariable Integer id) throws Exception;
 
   @ApiResponses(value = {
@@ -52,7 +52,7 @@ public interface UserControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List the requested user by username if it exists, and if you are an admin")
+  @Operation(summary = "Lists the requested user by username if it exists, and if you are an admin")
   public ResponseEntity<UserMinifiedDTO> listByUsername(@PathVariable String username);
 
   @ApiResponses(value = {

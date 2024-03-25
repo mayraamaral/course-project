@@ -43,7 +43,7 @@ public interface FeedbackControllerDoc {
       @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List the feedbacks of a course from its code if it exists, and if you are an admin or instructor")
+  @Operation(summary = "Lists the feedbacks of a course from its code if it exists, and if you are an admin or instructor")
   public ResponseEntity<List<FeedbackResponseDTO>> listAllFeedbacksByCourseCode(@PathVariable String courseCode);
 
   @ApiResponses(value = {
@@ -55,6 +55,6 @@ public interface FeedbackControllerDoc {
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List all feedbacks of all courses, and if you are an admin or instructor")
+  @Operation(summary = "Lists all feedbacks of all courses, and if you are an admin or instructor")
   public ResponseEntity<List<FeedbackResponseDTO>> listAllFeedbacks();
 }

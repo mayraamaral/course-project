@@ -24,7 +24,7 @@ public interface ReportControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
   })
-  @Operation(summary = "List all courses and its NPS, if you are an admin or instructor")
+  @Operation(summary = "Lists all courses and its NPS, if you are an admin or instructor")
   public ResponseEntity<List<ReportNpsDTO>> listAllCoursesNps();
 
   @ApiResponses(value = {
@@ -36,7 +36,7 @@ public interface ReportControllerDoc {
           schema = @Schema(implementation = ErrorDTO.class))),
 
   })
-  @Operation(summary = "List course NPS by code, if you are an admin or instructor")
+  @Operation(summary = "Lists course NPS by code, if you are an admin or instructor")
   public ResponseEntity<ReportNpsDTO> listCourseNpsByCode(@PathVariable String courseCode);
 
   @ApiResponses(value = {
