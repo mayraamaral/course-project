@@ -4,16 +4,16 @@ import dev.mayra.courses.app.services.ReportService;
 import dev.mayra.courses.entities.report.ReportNpsDTO;
 import dev.mayra.courses.infra.controllers.docs.ReportControllerDoc;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -32,5 +32,15 @@ public class ReportController implements ReportControllerDoc {
   @GetMapping("/nps/{courseCode}")
   public ResponseEntity<ReportNpsDTO> listCourseNpsByCode(@PathVariable String courseCode) {
     return new ResponseEntity<>(reportService.listCourseNpsByCode(courseCode), HttpStatus.OK);
+  }
+
+  @PostMapping("/nps/send-to-email")
+  public ResponseEntity<String> sendCoursesNpsReport(HttpServletRequest request) throws MessagingException, IOException {
+    return new ResponseEntity<>(reportService.sendCoursesNpsReport(request), HttpStatus.CREATED);
+  }
+
+  @PostMapping("/feedback/send-to-email/{courseCode}")
+  public ResponseEntity<String> sendCourseFeedbacksReport(HttpServletRequest request, @PathVariable String courseCode) throws Exception {
+    return new ResponseEntity<>(reportService.sendCourseFeedbacksReport(request, courseCode), HttpStatus.CREATED);
   }
 }

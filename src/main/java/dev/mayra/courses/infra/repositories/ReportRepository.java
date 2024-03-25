@@ -26,4 +26,10 @@ public interface ReportRepository extends JpaRepository<Feedback, Integer> {
       "where c.code = :courseCode")
   public ReportNpsDTO listCourseNpsByCode(@Param("courseCode") String courseCode);
 
+  @Query("select avg(f.rating)" +
+      "from Feedback f inner join Enrollment e on f.enrollment.idEnrollment = e.idEnrollment " +
+      "inner join Course c on e.course.code = c.code " +
+      "where c.code = :courseCode")
+  public Double findCourseNpsByCode(@Param("courseCode") String courseCode);
+
 }

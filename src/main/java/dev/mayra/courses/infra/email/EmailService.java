@@ -2,10 +2,18 @@ package dev.mayra.courses.infra.email;
 
 import dev.mayra.courses.entities.enrollment.Enrollment;
 import dev.mayra.courses.entities.feedback.Feedback;
+import dev.mayra.courses.entities.report.ReportNpsDTO;
+import dev.mayra.courses.entities.user.User;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -38,6 +46,46 @@ public class EmailService {
         "Mayra Amaral.";
 
     email.setText(message);
+
+    mailSender.send(email);
+  }
+
+  public void sendUserNpsCoursesReport(User userToSent, File report) throws MessagingException {
+    MimeMessage email = mailSender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(email, true);
+
+    helper.setFrom(from);
+    helper.setTo(userToSent.getEmail());
+    helper.setSubject("The Nps Courses Report You Requested Is Here!");
+
+    String message = "Hello, " + userToSent.getName() + "\n" +
+        "The report you requested is attached to this email.\n\n" +
+        "Best Regards, \n" +
+        "Mayra Amaral.";
+
+    helper.setText(message);
+
+    helper.addAttachment(report.getName(), report);
+
+    mailSender.send(email);
+  }
+
+  public void sendUserFeedbacksCourseReport(User userToSent, File report) throws MessagingException {
+    MimeMessage email = mailSender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(email, true);
+
+    helper.setFrom(from);
+    helper.setTo(userToSent.getEmail());
+    helper.setSubject("The Feedbacks Report You Requested Is Here!");
+
+    String message = "Hello, " + userToSent.getName() + "\n" +
+        "The report you requested is attached to this email.\n\n" +
+        "Best Regards, \n" +
+        "Mayra Amaral.";
+
+    helper.setText(message);
+
+    helper.addAttachment(report.getName(), report);
 
     mailSender.send(email);
   }

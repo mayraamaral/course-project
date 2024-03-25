@@ -131,6 +131,10 @@ public class CourseService {
     }
   }
 
+  public boolean doesCourseExists(String courseCode) {
+    return courseRepository.findByCode(courseCode).isPresent();
+  }
+
   public void checkIfCourseExistsByCode(String courseCode) throws Exception {
     Optional<Course> courseOpt = courseRepository.findByCode(courseCode);
     if(courseOpt.isPresent()) {
