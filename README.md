@@ -7,7 +7,8 @@
 - **SGBD/Database:** MySQL;
 - **Migrations:** Flyway;
 - **Docs:** Open API Swagger;
-- **Email**: JavaMail API & Mailgun.
+- **Email**: JavaMail API & Mailgun;
+- **Report Generator:** OpenPDF.
 ## Development Tools
 - **IDE:** IntelliJ;
 - **Database client:** DBeaver;
