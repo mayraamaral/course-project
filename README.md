@@ -1,4 +1,8 @@
 # Course Project
+<p align="center">
+  <img src="./project.gif" alt="GIF of the Swagger Docs" />
+</p>  
+  
 ## Project Specification
 - **Language:** Java 21;
 - **Framework:** Spring v. 3.1.9;
