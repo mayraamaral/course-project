@@ -20,7 +20,15 @@
 - **Requests:** Swagger UI / HTTPie.
 ## Instructions
 ### Locally
-Database creation on Docker:  
+#### Project build
+```shell
+docker build -t courses .
+```
+#### Running
+```shell
+docker run -p 8080:8080 -e JAVA_TOOL_OPTIONS="VM_OPTIONS" --name courses courses
+```
+#### Database creation on Docker:  
 ```shell
 docker run -d -p 3306:3306 --name mysql \
 -e MYSQL_ROOT_PASSWORD=mysql -e MYSQL_USER=root -e MYSQL_DATABASE=db \
