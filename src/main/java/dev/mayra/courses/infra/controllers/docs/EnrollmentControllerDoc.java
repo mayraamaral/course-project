@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 public interface EnrollmentControllerDoc {
 
   @ApiResponses(value = {
@@ -27,4 +29,23 @@ public interface EnrollmentControllerDoc {
   @Operation(summary = "Creates a new enrollment for the logged user, if they are not enrolled to the course yet")
   public ResponseEntity<EnrollmentResponseDTO> create(HttpServletRequest request, @PathVariable String courseCode) throws Exception;
 
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "OK"),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+  })
+  @Operation(summary = "List all enrollments, if you are an admin or instructor")
+  public ResponseEntity<List<EnrollmentResponseDTO>> listAllEnrollments();
+
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "OK"),
+      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
+  })
+  @Operation(summary = "List all enrollments of a course, if they are not enrolled to the course yet")
+  public ResponseEntity<List<EnrollmentResponseDTO>> listAllEnrollmentsByCourseCode(@PathVariable String courseCode) throws Exception;
 }
