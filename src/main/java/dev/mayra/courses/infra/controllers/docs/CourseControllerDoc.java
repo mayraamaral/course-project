@@ -76,6 +76,8 @@ public interface CourseControllerDoc {
       @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
           schema = @Schema(implementation = ErrorDTO.class))),
       @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
+      @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ErrorDTO.class))),
   })
   @Operation(summary = "Creates a new course")
   public ResponseEntity<CourseResponseDTO> create(@RequestBody @Valid CourseCreateDTO course) throws Exception;
