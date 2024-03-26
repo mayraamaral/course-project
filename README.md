@@ -29,8 +29,8 @@
 - **Diagram tool:** Lucidchart;
 - **Requests:** Swagger UI / HTTPie.
 ## Deploy - AWS
-- Database: Using AWS RDS;
-- Spring App: Using AWS ECS (Fargate) + EC2 load balancer;
+- **Database:** Using AWS RDS;
+- **Spring App:** Using AWS ECS (Fargate) + EC2 load balancer;
 - [Deploy Link](http://courseproject-1675530516.sa-east-1.elb.amazonaws.com)
 ## Running Locally - Instructions
 You can choose either to run with Docker Compose or to run two containers separated, both options
