@@ -22,7 +22,8 @@
 - **Migrations:** Flyway;
 - **Docs:** Open API Swagger;
 - **Email**: JavaMail API & Mailgun;
-- **Report Generator:** OpenPDF.
+- **Report Generator:** OpenPDF;
+- **Unit Tests:** JUnit & Mockito.
 ## Development Tools
 - **IDE:** IntelliJ;
 - **Database client:** DBeaver;
