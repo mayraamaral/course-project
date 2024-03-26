@@ -24,7 +24,7 @@ public class CourseCreateDTO {
       message = "The course code must be alphanumeric, without spaces or special characters, " +
           "but it can " +
           "be separated by hyphens, for example: spring-boot-advanced.")
-  @Size(max = 20, message = "The course code can have a maximum of 20 characters")
+  @Size(max = 10, message = "The course code can have a maximum of 10 characters")
   private String code;
 
   @NotBlank(message = "The course instructor can't be blank")

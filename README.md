@@ -1,5 +1,15 @@
 # Course Project
 <p align="center">
+<img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java badge" />
+<img src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white" alt="Spring badge" />
+<img src="https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger badge" />
+<img src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL badge" />  
+<img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker badge" />  
+<img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS badge" /> 
+<img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white" alt="Git badge" />
+</p>
+
+<p align="center">
   <img src="./project.gif" alt="GIF of the Swagger Docs" />
 </p>  
   
@@ -18,7 +28,11 @@
 - **Database client:** DBeaver;
 - **Diagram tool:** Lucidchart;
 - **Requests:** Swagger UI / HTTPie.
-## Instructions
+## Deploy - AWS
+- **Database:** Using AWS RDS;
+- **Spring App:** Using AWS ECS (Fargate) + EC2 load balancer;
+- [Deploy Link](http://courseproject-1675530516.sa-east-1.elb.amazonaws.com)
+## Running Locally - Instructions
 You can choose either to run with Docker Compose or to run two containers separated, both options
 are described below:  
 ### Running option #1 - Locally with Docker Compose
