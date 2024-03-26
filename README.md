@@ -18,7 +18,7 @@
 - **Framework:** Spring v. 3.1.9;
 - Spring Data JPA;
 - Lombok;
-- **SGBD/Database:** MySQL;
+- **RDBMS/Database:** MySQL;
 - **Migrations:** Flyway;
 - **Docs:** Open API Swagger;
 - **Email**: JavaMail API & Mailgun;
