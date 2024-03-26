@@ -50,7 +50,7 @@ class UserServiceTest {
   private static LocalDate currentDate = LocalDate.now();
 
   @Test
-  public void testShouldListAllWithSuccess() {
+  void testShouldListAllWithSuccess() {
     List<User> usersList = List.of(getUserMock(), getUserMock(), getUserMock());
     List<UserResponseDTO> usersDtoList = List.of(getUserResponseDtoMock(), getUserResponseDtoMock(), getUserResponseDtoMock());
 
@@ -67,7 +67,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldListByIdWithSuccess() {
+  void testShouldListByIdWithSuccess() {
     User userMock = getUserMock();
     Optional<User> userOpt = Optional.of(userMock);
     when(userRepository.findById(any())).thenReturn(userOpt);
@@ -82,7 +82,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldThrowNotFoundExceptionWhenInvalidIdIsPassed() {
+  void testShouldThrowNotFoundExceptionWhenInvalidIdIsPassed() {
     Optional<User> optMock = Optional.empty();
 
     when(userRepository.findById(any())).thenReturn(optMock);
@@ -91,7 +91,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShoudListByUsernameWithSuccess() {
+  void testShoudListByUsernameWithSuccess() {
     Optional<UserMinifiedDTO> userMock = Optional.of(getUserMinifiedDtoMock());
 
     when(userRepository.findByUsernameMinified(any())).thenReturn(userMock);
@@ -102,7 +102,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShoudThrowNotFoundWhenInvalidUsernameIsPassed() {
+  void testShoudThrowNotFoundWhenInvalidUsernameIsPassed() {
     Optional<UserMinifiedDTO> userOpt = Optional.empty();
 
     when(userRepository.findByUsernameMinified(any())).thenReturn(userOpt);
@@ -111,7 +111,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldCreateWithSuccess() throws Exception {
+  void testShouldCreateWithSuccess() throws Exception {
     UserCreateDTO userCreate = getUserCreateDtoMock();
     User userMock = getUserMock();
     Role roleMock = getAdminRoleMock();
@@ -135,7 +135,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShoudUpdateWithSuccess() throws Exception {
+  void testShoudUpdateWithSuccess() throws Exception {
     User userMock = getUserMock();
     UserCreateDTO userCreateMock = getUserCreateDtoMock();
     userCreateMock.setName("User updated");
@@ -156,7 +156,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldDeleteWithSuccess() {
+  void testShouldDeleteWithSuccess() {
     User userMock = getUserMock();
 
     doReturn(userMock).when(userService).findUserById(any());
@@ -167,7 +167,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldReturnUserWithEncryptedPassword() {
+  void testShouldReturnUserWithEncryptedPassword() {
     User userEncryptMock = getUserWithEncryptedPassword();
     User userMock = getUserMock();
 
@@ -181,7 +181,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShoutThrowExceptionIfUsernameIsTaken() throws Exception {
+  void testShoutThrowExceptionIfUsernameIsTaken() throws Exception {
     Optional<User> userMock = Optional.of(getUserMock());
     UserCreateDTO userCreateMock = getUserCreateDtoMock();
     when(userRepository.findByUsername(any())).thenReturn(userMock);
@@ -190,7 +190,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShoutThrowExceptionIfEmailExists() throws Exception {
+  void testShoutThrowExceptionIfEmailExists() throws Exception {
     Optional<User> userMock = Optional.of(getUserMock());
     UserCreateDTO userCreateMock = getUserCreateDtoMock();
     when(userRepository.findByEmail(any())).thenReturn(userMock);
@@ -199,7 +199,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldReturnUserFromUsername() {
+  void testShouldReturnUserFromUsername() {
     Optional<User> userOpt = Optional.of(getUserMock());
 
     when(userRepository.findByUsername(any())).thenReturn(userOpt);
@@ -210,7 +210,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldThrowExceptionFromUsernameIfUserDontExists() {
+  void testShouldThrowExceptionFromUsernameIfUserDontExists() {
     Optional<User> userOpt = Optional.empty();
 
     when(userRepository.findByUsername(any())).thenReturn(userOpt);
@@ -219,7 +219,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShouldReturnUserFromId() {
+  void testShouldReturnUserFromId() {
     Optional<User> userOpt = Optional.of(getUserMock());
 
     when(userRepository.findById(any())).thenReturn(userOpt);
@@ -230,7 +230,7 @@ class UserServiceTest {
   }
 
   @Test
-  public void testShoudThrowExceptionFromIdIfUserDontExists() {
+  void testShoudThrowExceptionFromIdIfUserDontExists() {
     Optional<User> userOpt = Optional.empty();
 
     when(userRepository.findById(any())).thenReturn(userOpt);

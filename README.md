@@ -17,6 +17,7 @@
 - **Language:** Java 21;
 - **Framework:** Spring v. 3.1.9;
 - Spring Data JPA;
+- Spring Security;
 - Lombok;
 - **RDBMS/Database:** MySQL;
 - **Migrations:** Flyway;
