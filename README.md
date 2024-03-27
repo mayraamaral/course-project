@@ -13,16 +13,32 @@
   <img src="./project.gif" alt="GIF of the Swagger Docs" />
 </p>  
   
+# Summary
+- Project Specification;
+- Development Tools;
+- Deploy - AWS;
+- Running Locally - Instructions:
+  - Running option #1 - Locally with Docker Compose;
+  - Running option #2 - Locally with Docker:
+    - Database creation on Docker;
+    - Project build;
+    - Running;
+- DB Diagram;
+- Unit tests;
+- Observation.
+  
 ## Project Specification
 - **Language:** Java 21;
 - **Framework:** Spring v. 3.1.9;
 - Spring Data JPA;
+- Spring Security;
 - Lombok;
-- **SGBD/Database:** MySQL;
+- **RDBMS/Database:** MySQL;
 - **Migrations:** Flyway;
 - **Docs:** Open API Swagger;
 - **Email**: JavaMail API & Mailgun;
-- **Report Generator:** OpenPDF.
+- **Report Generator:** OpenPDF;
+- **Unit Tests:** JUnit & Mockito.
 ## Development Tools
 - **IDE:** IntelliJ;
 - **Database client:** DBeaver;
@@ -56,5 +72,17 @@ docker build -t courses .
 ```shell
 docker run -p 8080:8080 -e JAVA_TOOL_OPTIONS="VM_OPTIONS" --name courses courses
 ```
+### DB Diagram
+<p align="center">
+  <img src="./src/main/resources/assets/diagram.png" alt="DB Diagram" />
+</p>  
+  
+### Unit tests
+Main service classes with > 80% of LOC (lines of code) coverage. 85% of the app service classes are covered
+by unit tests. Total of 35 unit tests.  
+<p align="center">
+  <img src="./src/main/resources/assets/coverage.png" alt="Code Coverage" />
+</p>  
+
 ### Observation
 For security concerns URLs, users and passwords do not have the current values in the ```application.properties``` file, instead they are passed via VM Options.
