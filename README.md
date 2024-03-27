@@ -13,6 +13,19 @@
   <img src="./project.gif" alt="GIF of the Swagger Docs" />
 </p>  
   
+# Summary
+- Project Specification;
+- Development Tools;
+- Deploy - AWS;
+- Running Locally - Instructions:
+  - Running option #1 - Locally with Docker Compose;
+  - Running option #2 - Locally with Docker:
+    - Database creation on Docker;
+    - Project build;
+    - Running;
+- DB Diagram;
+- Observation.
+  
 ## Project Specification
 - **Language:** Java 21;
 - **Framework:** Spring v. 3.1.9;
@@ -58,5 +71,10 @@ docker build -t courses .
 ```shell
 docker run -p 8080:8080 -e JAVA_TOOL_OPTIONS="VM_OPTIONS" --name courses courses
 ```
+### DB Diagram
+<p align="center">
+  <img src="./src/main/resources/assets/diagram.png" alt="DB Diagram" />
+</p>  
+  
 ### Observation
 For security concerns URLs, users and passwords do not have the current values in the ```application.properties``` file, instead they are passed via VM Options.
