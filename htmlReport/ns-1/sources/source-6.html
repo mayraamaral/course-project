@@ -1,0 +1,256 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dev.mayra.courses.app.services</a>
+</div>
+
+<h1>Coverage Summary for Class: UserService (dev.mayra.courses.app.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.2%
+  </span>
+  <span class="absValue">
+    (13/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.3%
+  </span>
+  <span class="absValue">
+    (44/51)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dev.mayra.courses.app.services;
+&nbsp;
+&nbsp;import dev.mayra.courses.entities.role.Role;
+&nbsp;import dev.mayra.courses.entities.user.UserCreateDTO;
+&nbsp;import dev.mayra.courses.entities.user.UserMinifiedDTO;
+&nbsp;import dev.mayra.courses.entities.user.UserResponseDTO;
+&nbsp;import dev.mayra.courses.entities.user.User;
+&nbsp;import dev.mayra.courses.infra.repositories.RoleRepository;
+&nbsp;import dev.mayra.courses.infra.repositories.UserRepository;
+&nbsp;import dev.mayra.courses.utils.Mapper;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.beans.BeanUtils;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.webjars.NotFoundException;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class UserService {
+&nbsp;  private final UserRepository userRepository;
+&nbsp;  private final RoleRepository roleRepository;
+&nbsp;  private final PasswordEncoder passwordEncoder;
+&nbsp;  private final Mapper mapper;
+&nbsp;
+&nbsp;  public List&lt;UserResponseDTO&gt; listAllUsers() {
+<b class="fc">&nbsp;    List&lt;User&gt; allUsers = userRepository.findAll();</b>
+&nbsp;
+<b class="fc">&nbsp;    return allUsers.stream()</b>
+<b class="fc">&nbsp;        .map(entity -&gt; mapper.convertToDTO(entity, UserResponseDTO.class))</b>
+<b class="fc">&nbsp;        .collect(Collectors.toList());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserResponseDTO findById(Integer id) {
+<b class="fc">&nbsp;    Optional&lt;User&gt; user = userRepository.findById(id);</b>
+&nbsp;
+<b class="fc">&nbsp;    if(user.isEmpty()) {</b>
+<b class="fc">&nbsp;      throw new NotFoundException(&quot;User not found&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return mapper.convertToDTO(user.get(), UserResponseDTO.class);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserMinifiedDTO findByUsername(String username) {
+<b class="fc">&nbsp;    Optional&lt;UserMinifiedDTO&gt; user = userRepository.findByUsernameMinified(username);</b>
+&nbsp;
+<b class="fc">&nbsp;    if(user.isEmpty()) {</b>
+<b class="fc">&nbsp;      throw new NotFoundException(&quot;Username not found&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return user.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserResponseDTO create(UserCreateDTO userToBeCreated) throws Exception {
+&nbsp;
+<b class="fc">&nbsp;    checkIfUsernameOrEmailAreTaken(userToBeCreated);</b>
+&nbsp;
+<b class="fc">&nbsp;    User user = mapper.convertToEntity(userToBeCreated, User.class);</b>
+<b class="fc">&nbsp;    user.setRole(getRoleByName(userToBeCreated.getRoleName()));</b>
+<b class="fc">&nbsp;    user = getUserWithEncryptedPassword(user);</b>
+<b class="fc">&nbsp;    user.setCreatedAt(LocalDate.now());</b>
+&nbsp;
+<b class="fc">&nbsp;    User userCreated = userRepository.save(user);</b>
+&nbsp;
+<b class="fc">&nbsp;    return mapper.convertToDTO(userCreated, UserResponseDTO.class);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public UserResponseDTO update(Integer id, UserCreateDTO userUpdated) throws Exception {
+<b class="fc">&nbsp;    User user = findUserById(id);</b>
+<b class="fc">&nbsp;    checkIfUsernameOrEmailAreTaken(userUpdated);</b>
+<b class="fc">&nbsp;    BeanUtils.copyProperties(userUpdated, user);</b>
+<b class="fc">&nbsp;    User userFromDb = userRepository.save(user);</b>
+&nbsp;
+<b class="fc">&nbsp;    return mapper.convertToDTO(userFromDb, UserResponseDTO.class);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void delete(Integer id) {
+<b class="fc">&nbsp;    User user = findUserById(id);</b>
+&nbsp;
+<b class="fc">&nbsp;    userRepository.delete(user);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public User getUserWithEncryptedPassword(User user) {
+<b class="fc">&nbsp;    String encryptedPassword = passwordEncoder.encode(user.getPassword());</b>
+<b class="fc">&nbsp;    user.setPassword(encryptedPassword);</b>
+&nbsp;
+<b class="fc">&nbsp;    return user;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void checkIfUsernameOrEmailAreTaken(UserCreateDTO user) throws Exception {
+<b class="fc">&nbsp;    if(usernameExists(user.getUsername())) {</b>
+<b class="fc">&nbsp;      throw new Exception(&quot;Username already taken&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    if(emailExists(user.getEmail())) {</b>
+<b class="fc">&nbsp;      throw new Exception(&quot;Email already registered&quot;);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  public User findUserByUsername(String username) {
+<b class="fc">&nbsp;    Optional&lt;User&gt; user = userRepository.findByUsername(username);</b>
+&nbsp;
+<b class="fc">&nbsp;    if(user.isEmpty()) {</b>
+<b class="fc">&nbsp;      throw new NotFoundException(&quot;User not found&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return user.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public User findUserById(Integer id) {
+<b class="fc">&nbsp;    Optional&lt;User&gt; user = userRepository.findById(id);</b>
+&nbsp;
+<b class="fc">&nbsp;    if(user.isEmpty()) {</b>
+<b class="fc">&nbsp;      throw new NotFoundException(&quot;User not found&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    return user.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isUserAnInstructor(Integer idUser) throws Exception {
+<b class="nc">&nbsp;    Role userRole = getUserRole(idUser);</b>
+&nbsp;
+<b class="nc">&nbsp;    return userRole.getName().equals(&quot;ROLE_INSTRUCTOR&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Role getUserRole(Integer idUser) throws Exception {
+<b class="nc">&nbsp;    User user = findUserById(idUser);</b>
+&nbsp;
+<b class="nc">&nbsp;    return user.getRole();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean usernameExists(String username) throws Exception {
+<b class="fc">&nbsp;    return userRepository.findByUsername(username).isPresent();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean emailExists(String email) throws Exception {
+<b class="fc">&nbsp;    return userRepository.findByEmail(email).isPresent();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Role getRoleByName(String roleName) {
+<b class="nc">&nbsp;    Optional&lt;Role&gt; role = roleRepository.findByName(roleName);</b>
+&nbsp;
+<b class="nc">&nbsp;    if(role.isEmpty()) throw new NotFoundException(&quot;Role not found&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    return role.get();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-27 17:05</div>
+</div>
+</body>
+</html>

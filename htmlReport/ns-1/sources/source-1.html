@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > CourseService</title>
+  <title>Coverage Report > AuthService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">dev.mayra.courses.app.services</a>
 </div>
 
-<h1>Coverage Summary for Class: CourseService (dev.mayra.courses.app.services)</h1>
+<h1>Coverage Summary for Class: AuthService (dev.mayra.courses.app.services)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">CourseService</td>
+  <td class="name">AuthService</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    78.6%
+    0%
   </span>
   <span class="absValue">
-    (11/14)
+    (0/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    84.6%
+    0%
   </span>
   <span class="absValue">
-    (44/52)
+    (0/12)
   </span>
 </td>
 </tr>
@@ -77,155 +77,59 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package dev.mayra.courses.app.services;
 &nbsp;
-&nbsp;import dev.mayra.courses.entities.course.Course;
-&nbsp;import dev.mayra.courses.entities.course.CourseCreateDTO;
-&nbsp;import dev.mayra.courses.entities.course.CourseResponseDTO;
-&nbsp;import dev.mayra.courses.entities.course.CourseStatus;
 &nbsp;import dev.mayra.courses.entities.user.User;
-&nbsp;import dev.mayra.courses.infra.repositories.CourseRepository;
-&nbsp;import dev.mayra.courses.utils.Mapper;
+&nbsp;import dev.mayra.courses.entities.user.UserLoginDTO;
+&nbsp;import dev.mayra.courses.infra.config.security.SecurityFilter;
+&nbsp;import dev.mayra.courses.infra.config.security.TokenService;
+&nbsp;import dev.mayra.courses.infra.repositories.UserRepository;
+&nbsp;import io.jsonwebtoken.Claims;
+&nbsp;import io.jsonwebtoken.Jwts;
+&nbsp;import jakarta.servlet.http.HttpServletRequest;
 &nbsp;import lombok.RequiredArgsConstructor;
-&nbsp;import org.springframework.data.domain.Page;
-&nbsp;import org.springframework.data.domain.PageImpl;
-&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.Authentication;
+&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+&nbsp;import org.springframework.security.core.userdetails.UserDetailsService;
+&nbsp;import org.springframework.security.core.userdetails.UsernameNotFoundException;
 &nbsp;import org.springframework.stereotype.Service;
-&nbsp;import org.webjars.NotFoundException;
 &nbsp;
-&nbsp;import java.time.LocalDate;
-&nbsp;import java.util.ArrayList;
-&nbsp;import java.util.Collections;
-&nbsp;import java.util.List;
 &nbsp;import java.util.Optional;
-&nbsp;import java.util.stream.Collectors;
 &nbsp;
 &nbsp;@Service
-<b class="fc">&nbsp;@RequiredArgsConstructor</b>
-&nbsp;public class CourseService {
-&nbsp;  private final CourseRepository courseRepository;
+<b class="nc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class AuthService {
+&nbsp;  private final TokenService tokenService;
+&nbsp;  private final AuthenticationManager authenticationManager;
+&nbsp;  private final SecurityFilter securityFilter;
+&nbsp;
 &nbsp;  private final UserService userService;
-&nbsp;  private final Mapper mapper;
 &nbsp;
-&nbsp;  public List&lt;CourseResponseDTO&gt; listAllCourses() {
-<b class="fc">&nbsp;    List&lt;CourseResponseDTO&gt; courses = courseRepository.findAllDto();</b>
-<b class="fc">&nbsp;    return courses;</b>
+&nbsp;  @Value(&quot;${api.security.token.secret}&quot;)
+&nbsp;  private String secret;
+&nbsp;
+&nbsp;  public User getLoggedUser(String token) {
+<b class="nc">&nbsp;      Claims body = Jwts.parser()</b>
+<b class="nc">&nbsp;          .setSigningKey(secret)</b>
+<b class="nc">&nbsp;          .parseClaimsJws(token.replace(&quot;Bearer &quot;, &quot;&quot;))</b>
+<b class="nc">&nbsp;          .getBody();</b>
+&nbsp;
+<b class="nc">&nbsp;      Integer idUser = Integer.parseInt(body.getId());</b>
+&nbsp;
+<b class="nc">&nbsp;      User user = userService.findUserById(idUser);</b>
+&nbsp;
+<b class="nc">&nbsp;      return user;</b>
 &nbsp;  }
 &nbsp;
-&nbsp;  public Page&lt;List&lt;CourseResponseDTO&gt;&gt; listAllOrByStatus(String status, Pageable pageable) {
-&nbsp;      try {
-<b class="fc">&nbsp;        CourseStatus statusEnum = null;</b>
+&nbsp;  public String auth(UserLoginDTO login) {
+<b class="nc">&nbsp;    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());</b>
+<b class="nc">&nbsp;    Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);</b>
+<b class="nc">&nbsp;    User userAuth = (User) authentication.getPrincipal();</b>
 &nbsp;
-<b class="fc">&nbsp;        if(status != null) {</b>
-<b class="fc">&nbsp;          statusEnum = CourseStatus.valueOf(status.toUpperCase());</b>
-&nbsp;        }
-&nbsp;
-<b class="fc">&nbsp;        Page&lt;List&lt;CourseResponseDTO&gt;&gt; courses = courseRepository.findAllCoursesOrByStatus(statusEnum, pageable);</b>
-&nbsp;
-<b class="fc">&nbsp;        return courses;</b>
-<b class="fc">&nbsp;      } catch (IllegalArgumentException ex) {</b>
-<b class="fc">&nbsp;        return new PageImpl&lt;&gt;(Collections.emptyList(), pageable, 0);</b>
-&nbsp;      }
+<b class="nc">&nbsp;    return tokenService.generateToken(userAuth);</b>
 &nbsp;  }
 &nbsp;
-&nbsp;  public List&lt;CourseResponseDTO&gt; listAllByInstructorUsername(String username) throws Exception {
-&nbsp;
-<b class="fc">&nbsp;    User user = userService.findUserByUsername(username);</b>
-&nbsp;
-<b class="fc">&nbsp;    if(!userService.isUserAnInstructor(user.getIdUser())) {</b>
-<b class="fc">&nbsp;      throw new Exception(&quot;Username must be from an instructor&quot;);</b>
-&nbsp;    }
-&nbsp;
-<b class="fc">&nbsp;    List&lt;Course&gt; coursesFound = courseRepository.findAllByInstructorUsername(username);</b>
-&nbsp;
-<b class="fc">&nbsp;    List&lt;CourseResponseDTO&gt; coursesDto = coursesFound.stream()</b>
-<b class="fc">&nbsp;        .map(course -&gt; mapper.convertToDTO(course, CourseResponseDTO.class))</b>
-<b class="fc">&nbsp;        .collect(Collectors.toList());</b>
-&nbsp;
-<b class="fc">&nbsp;    return coursesDto;</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public CourseResponseDTO listByCode(String courseCode) {
-<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
-&nbsp;
-<b class="fc">&nbsp;    return mapper.convertToDTO(course, CourseResponseDTO.class);</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public CourseResponseDTO create(CourseCreateDTO course) throws Exception {
-<b class="fc">&nbsp;    User user = userService.findUserByUsername(course.getInstructorUsername());</b>
-&nbsp;
-<b class="fc">&nbsp;    Integer idUser = user.getIdUser();</b>
-&nbsp;
-<b class="fc">&nbsp;    checkIfCourseExistsByCode(course.getCode());</b>
-&nbsp;
-<b class="fc">&nbsp;    if(!userService.isUserAnInstructor(idUser)) {</b>
-<b class="fc">&nbsp;      throw new Exception(&quot;Username must be from an instructor&quot;);</b>
-&nbsp;    }
-&nbsp;
-<b class="fc">&nbsp;    Course courseToBeCreated = mapper.convertToEntity(course, Course.class);</b>
-<b class="fc">&nbsp;    courseToBeCreated.setInstructor(user);</b>
-<b class="fc">&nbsp;    courseToBeCreated.setCreatedAt(LocalDate.now());</b>
-<b class="fc">&nbsp;    courseToBeCreated.setStatus(getDefaultCourseStatus());</b>
-&nbsp;
-<b class="fc">&nbsp;    Course courseCreated = courseRepository.save(courseToBeCreated);</b>
-&nbsp;
-<b class="fc">&nbsp;    return mapper.convertToDTO(courseCreated, CourseResponseDTO.class);</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public CourseResponseDTO inactivate(String courseCode) throws Exception {
-&nbsp;
-<b class="fc">&nbsp;    checkIfCourseIsInactive(courseCode);</b>
-&nbsp;
-<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
-&nbsp;
-<b class="fc">&nbsp;    course.setInactivatedAt(LocalDate.now());</b>
-<b class="fc">&nbsp;    course.setStatus(CourseStatus.INACTIVE);</b>
-&nbsp;
-<b class="fc">&nbsp;    Course courseInactivated = courseRepository.save(course);</b>
-&nbsp;
-<b class="fc">&nbsp;    return mapper.convertToDTO(courseInactivated, CourseResponseDTO.class);</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public void delete(String courseCode) {
-<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
-&nbsp;
-<b class="fc">&nbsp;    courseRepository.delete(course);</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public Course findByCode(String courseCode) throws NotFoundException {
-<b class="nc">&nbsp;    Optional&lt;Course&gt; courseOpt = courseRepository.findByCode(courseCode);</b>
-&nbsp;
-<b class="nc">&nbsp;    if(courseOpt.isEmpty()) {</b>
-<b class="nc">&nbsp;      throw new NotFoundException(&quot;Code not found&quot;);</b>
-&nbsp;    }
-&nbsp;
-<b class="nc">&nbsp;    return courseOpt.get();</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public boolean isTheGivenCourseInactive(Course course) throws Exception {
-<b class="nc">&nbsp;    return course.getStatus().equals(CourseStatus.INACTIVE);</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public void checkIfCourseIsInactive(String courseCode) throws Exception {
-<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
-&nbsp;
-<b class="fc">&nbsp;    if(course.getStatus().equals(CourseStatus.INACTIVE)) {</b>
-<b class="nc">&nbsp;      throw new Exception(&quot;Course is already inactive&quot;);</b>
-&nbsp;    }
-&nbsp;  }
-&nbsp;
-&nbsp;  public boolean doesCourseExists(String courseCode) {
-<b class="nc">&nbsp;    return courseRepository.findByCode(courseCode).isPresent();</b>
-&nbsp;  }
-&nbsp;
-&nbsp;  public void checkIfCourseExistsByCode(String courseCode) throws Exception {
-<b class="fc">&nbsp;    Optional&lt;Course&gt; courseOpt = courseRepository.findByCode(courseCode);</b>
-<b class="fc">&nbsp;    if(courseOpt.isPresent()) {</b>
-<b class="nc">&nbsp;      throw new Exception(&quot;The code you provided already is associated with a course&quot;);</b>
-&nbsp;    }
-&nbsp;  }
-&nbsp;
-&nbsp;  public CourseStatus getDefaultCourseStatus() {
-<b class="fc">&nbsp;    return CourseStatus.ACTIVE;</b>
-&nbsp;  }
 &nbsp;}
 </code>
 </pre>
@@ -250,7 +154,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-03-27 02:00</div>
+    <div style="float:right;">generated on 2024-03-27 17:05</div>
 </div>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > FeedbackService</title>
+  <title>Coverage Report > CourseService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -22,7 +22,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">dev.mayra.courses.app.services</a>
 </div>
 
-<h1>Coverage Summary for Class: FeedbackService (dev.mayra.courses.app.services)</h1>
+<h1>Coverage Summary for Class: CourseService (dev.mayra.courses.app.services)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">FeedbackService</td>
+  <td class="name">CourseService</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    78.6%
   </span>
   <span class="absValue">
-    (8/8)
+    (11/14)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    88.9%
+    84.6%
   </span>
   <span class="absValue">
-    (24/27)
+    (44/52)
   </span>
 </td>
 </tr>
@@ -77,93 +77,154 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package dev.mayra.courses.app.services;
 &nbsp;
-&nbsp;import dev.mayra.courses.entities.enrollment.Enrollment;
-&nbsp;import dev.mayra.courses.entities.feedback.Feedback;
-&nbsp;import dev.mayra.courses.entities.feedback.FeedbackCreateDTO;
-&nbsp;import dev.mayra.courses.entities.feedback.FeedbackResponseDTO;
+&nbsp;import dev.mayra.courses.entities.course.Course;
+&nbsp;import dev.mayra.courses.entities.course.CourseCreateDTO;
+&nbsp;import dev.mayra.courses.entities.course.CourseResponseDTO;
+&nbsp;import dev.mayra.courses.entities.course.CourseStatus;
 &nbsp;import dev.mayra.courses.entities.user.User;
-&nbsp;import dev.mayra.courses.infra.email.EmailService;
-&nbsp;import dev.mayra.courses.infra.repositories.FeedbackRepository;
+&nbsp;import dev.mayra.courses.infra.repositories.CourseRepository;
 &nbsp;import dev.mayra.courses.utils.Mapper;
-&nbsp;import jakarta.servlet.http.HttpServletRequest;
 &nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageImpl;
+&nbsp;import org.springframework.data.domain.Pageable;
 &nbsp;import org.springframework.stereotype.Service;
 &nbsp;import org.webjars.NotFoundException;
 &nbsp;
 &nbsp;import java.time.LocalDate;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
 &nbsp;import java.util.List;
 &nbsp;import java.util.Optional;
 &nbsp;import java.util.stream.Collectors;
 &nbsp;
 &nbsp;@Service
 <b class="fc">&nbsp;@RequiredArgsConstructor</b>
-&nbsp;public class FeedbackService {
-&nbsp;  private final FeedbackRepository feedbackRepository;
-&nbsp;  private final AuthService authService;
-&nbsp;  private final EnrollmentService enrollmentService;
-&nbsp;  private final EmailService emailService;
+&nbsp;public class CourseService {
+&nbsp;  private final CourseRepository courseRepository;
+&nbsp;  private final UserService userService;
 &nbsp;  private final Mapper mapper;
 &nbsp;
-<b class="fc">&nbsp;  private final int RATING_VALUE_TO_CHECK = 6;</b>
+&nbsp;  public List&lt;CourseResponseDTO&gt; listAllCourses() {
+<b class="fc">&nbsp;    List&lt;CourseResponseDTO&gt; courses = courseRepository.findAllDto();</b>
+<b class="fc">&nbsp;    return courses;</b>
+&nbsp;  }
 &nbsp;
-&nbsp;  public List&lt;FeedbackResponseDTO&gt; listAllFeedbacks() {
-<b class="fc">&nbsp;    List&lt;Feedback&gt; feedbacks = feedbackRepository.findAll();</b>
-<b class="fc">&nbsp;    List&lt;FeedbackResponseDTO&gt; feedbacksDto = feedbacks.stream()</b>
-<b class="fc">&nbsp;        .map(entity -&gt; mapper.convertToDTO(entity, FeedbackResponseDTO.class))</b>
+&nbsp;  public Page&lt;List&lt;CourseResponseDTO&gt;&gt; listAllOrByStatus(String status, Pageable pageable) {
+&nbsp;      try {
+<b class="fc">&nbsp;        CourseStatus statusEnum = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        if(status != null) {</b>
+<b class="fc">&nbsp;          statusEnum = CourseStatus.valueOf(status.toUpperCase());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Page&lt;List&lt;CourseResponseDTO&gt;&gt; courses = courseRepository.findAllCoursesOrByStatus(statusEnum, pageable);</b>
+&nbsp;
+<b class="fc">&nbsp;        return courses;</b>
+<b class="fc">&nbsp;      } catch (IllegalArgumentException ex) {</b>
+<b class="fc">&nbsp;        return new PageImpl&lt;&gt;(Collections.emptyList(), pageable, 0);</b>
+&nbsp;      }
+&nbsp;  }
+&nbsp;
+&nbsp;  public List&lt;CourseResponseDTO&gt; listAllByInstructorUsername(String username) throws Exception {
+&nbsp;
+<b class="fc">&nbsp;    User user = userService.findUserByUsername(username);</b>
+&nbsp;
+<b class="fc">&nbsp;    if(!userService.isUserAnInstructor(user.getIdUser())) {</b>
+<b class="fc">&nbsp;      throw new Exception(&quot;Username must be from an instructor&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    List&lt;Course&gt; coursesFound = courseRepository.findAllByInstructorUsername(username);</b>
+&nbsp;
+<b class="fc">&nbsp;    List&lt;CourseResponseDTO&gt; coursesDto = coursesFound.stream()</b>
+<b class="fc">&nbsp;        .map(course -&gt; mapper.convertToDTO(course, CourseResponseDTO.class))</b>
 <b class="fc">&nbsp;        .collect(Collectors.toList());</b>
 &nbsp;
-<b class="fc">&nbsp;    return feedbacksDto;</b>
+<b class="fc">&nbsp;    return coursesDto;</b>
 &nbsp;  }
 &nbsp;
-&nbsp;  public List&lt;FeedbackResponseDTO&gt; listAllFeedbacksByCourseCode(String courseCode) {
-<b class="fc">&nbsp;    return feedbackRepository.findAllByCourseCode(courseCode);</b>
+&nbsp;  public CourseResponseDTO listByCode(String courseCode) {
+<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
+&nbsp;
+<b class="fc">&nbsp;    return mapper.convertToDTO(course, CourseResponseDTO.class);</b>
 &nbsp;  }
 &nbsp;
-&nbsp;  public FeedbackResponseDTO create(HttpServletRequest request, FeedbackCreateDTO feedbackToBeCreated) throws Exception {
+&nbsp;  public CourseResponseDTO create(CourseCreateDTO course) throws Exception {
+<b class="fc">&nbsp;    User user = userService.findUserByUsername(course.getInstructorUsername());</b>
 &nbsp;
-<b class="fc">&nbsp;    Enrollment enrollment = enrollmentService.findById(feedbackToBeCreated.getIdEnrollment());</b>
+<b class="fc">&nbsp;    Integer idUser = user.getIdUser();</b>
 &nbsp;
-<b class="fc">&nbsp;    checkIfUserAlreadyGaveFeedback(enrollment);</b>
+<b class="fc">&nbsp;    checkIfCourseExistsByCode(course.getCode());</b>
 &nbsp;
-<b class="fc">&nbsp;    checkIfLoggedUserIsEnrolledToCourse(request, enrollment);</b>
-&nbsp;
-<b class="fc">&nbsp;    Feedback feedback = mapper.convertToEntity(feedbackToBeCreated, Feedback.class);</b>
-<b class="fc">&nbsp;    feedback.setEnrollment(enrollment);</b>
-<b class="fc">&nbsp;    feedback.setFeedbackDate(LocalDate.now());</b>
-&nbsp;
-<b class="fc">&nbsp;    Feedback feedbackCreated = feedbackRepository.save(feedback);</b>
-&nbsp;
-<b class="fc">&nbsp;    if(isFeedbackRatingLowerThan(RATING_VALUE_TO_CHECK, feedbackCreated)) {</b>
-<b class="nc">&nbsp;      emailService.sendUserFeedbackToInstructor(feedback, enrollment);</b>
+<b class="fc">&nbsp;    if(!userService.isUserAnInstructor(idUser)) {</b>
+<b class="fc">&nbsp;      throw new Exception(&quot;Username must be from an instructor&quot;);</b>
 &nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    return mapper.convertToDTO(feedbackCreated, FeedbackResponseDTO.class);</b>
+<b class="fc">&nbsp;    Course courseToBeCreated = mapper.convertToEntity(course, Course.class);</b>
+<b class="fc">&nbsp;    courseToBeCreated.setInstructor(user);</b>
+<b class="fc">&nbsp;    courseToBeCreated.setCreatedAt(LocalDate.now());</b>
+<b class="fc">&nbsp;    courseToBeCreated.setStatus(getDefaultCourseStatus());</b>
+&nbsp;
+<b class="fc">&nbsp;    Course courseCreated = courseRepository.save(courseToBeCreated);</b>
+&nbsp;
+<b class="fc">&nbsp;    return mapper.convertToDTO(courseCreated, CourseResponseDTO.class);</b>
 &nbsp;  }
 &nbsp;
-&nbsp;  public boolean isFeedbackRatingLowerThan(int rateToCheck, Feedback feedback) {
-<b class="fc">&nbsp;    return feedback.getRating() &lt; rateToCheck;</b>
+&nbsp;  public CourseResponseDTO inactivate(String courseCode) throws Exception {
+&nbsp;
+<b class="fc">&nbsp;    checkIfCourseIsInactive(courseCode);</b>
+&nbsp;
+<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
+&nbsp;
+<b class="fc">&nbsp;    course.setInactivatedAt(LocalDate.now());</b>
+<b class="fc">&nbsp;    course.setStatus(CourseStatus.INACTIVE);</b>
+&nbsp;
+<b class="fc">&nbsp;    Course courseInactivated = courseRepository.save(course);</b>
+&nbsp;
+<b class="fc">&nbsp;    return mapper.convertToDTO(courseInactivated, CourseResponseDTO.class);</b>
 &nbsp;  }
 &nbsp;
-&nbsp;  public void checkIfUserAlreadyGaveFeedback(Enrollment enrollment) throws Exception {
-<b class="fc">&nbsp;    Optional&lt;Feedback&gt; feedbackOpt = feedbackRepository.findByEnrollment(enrollment);</b>
+&nbsp;  public void delete(String courseCode) {
+<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
 &nbsp;
-<b class="fc">&nbsp;    if(feedbackOpt.isPresent()) {</b>
-<b class="nc">&nbsp;      throw new Exception(&quot;You already gave feedback to this course&quot;);</b>
+<b class="fc">&nbsp;    courseRepository.delete(course);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public Course findByCode(String courseCode) throws NotFoundException {
+<b class="nc">&nbsp;    Optional&lt;Course&gt; courseOpt = courseRepository.findByCode(courseCode);</b>
+&nbsp;
+<b class="nc">&nbsp;    if(courseOpt.isEmpty()) {</b>
+<b class="nc">&nbsp;      throw new NotFoundException(&quot;Code not found&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    return courseOpt.get();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public boolean isTheGivenCourseInactive(Course course) throws Exception {
+<b class="nc">&nbsp;    return course.getStatus().equals(CourseStatus.INACTIVE);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  public void checkIfCourseIsInactive(String courseCode) throws Exception {
+<b class="fc">&nbsp;    Course course = findByCode(courseCode);</b>
+&nbsp;
+<b class="fc">&nbsp;    if(course.getStatus().equals(CourseStatus.INACTIVE)) {</b>
+<b class="nc">&nbsp;      throw new Exception(&quot;Course is already inactive&quot;);</b>
 &nbsp;    }
 &nbsp;  }
 &nbsp;
-&nbsp;  public void checkIfLoggedUserIsEnrolledToCourse(HttpServletRequest request, Enrollment enrollment) throws Exception {
-<b class="fc">&nbsp;    String token = request.getHeader(&quot;Authorization&quot;);</b>
+&nbsp;  public boolean doesCourseExists(String courseCode) {
+<b class="nc">&nbsp;    return courseRepository.findByCode(courseCode).isPresent();</b>
+&nbsp;  }
 &nbsp;
-<b class="fc">&nbsp;    User user = authService.getLoggedUser(token);</b>
-&nbsp;
-<b class="fc">&nbsp;    if(!isUserEnrolledToTheFeedbackCourse(user, enrollment)) {</b>
-<b class="nc">&nbsp;      throw new Exception(&quot;You can only give feedback to courses you are enrolled to&quot;);</b>
+&nbsp;  public void checkIfCourseExistsByCode(String courseCode) throws Exception {
+<b class="fc">&nbsp;    Optional&lt;Course&gt; courseOpt = courseRepository.findByCode(courseCode);</b>
+<b class="fc">&nbsp;    if(courseOpt.isPresent()) {</b>
+<b class="nc">&nbsp;      throw new Exception(&quot;The code you provided already is associated with a course&quot;);</b>
 &nbsp;    }
 &nbsp;  }
 &nbsp;
-&nbsp;  public boolean isUserEnrolledToTheFeedbackCourse(User user, Enrollment enrollment) {
-<b class="fc">&nbsp;    return user.getIdUser() == enrollment.getUser().getIdUser();</b>
+&nbsp;  public CourseStatus getDefaultCourseStatus() {
+<b class="fc">&nbsp;    return CourseStatus.ACTIVE;</b>
 &nbsp;  }
 &nbsp;}
 </code>
@@ -189,7 +250,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-03-27 02:00</div>
+    <div style="float:right;">generated on 2024-03-27 17:05</div>
 </div>
 </body>
 </html>
