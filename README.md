@@ -14,18 +14,18 @@
 </p>  
   
 # Summary
-- Project Specification;
-- Development Tools;
-- Deploy - AWS;
-- Running Locally - Instructions:
-  - Running option #1 - Locally with Docker Compose;
-  - Running option #2 - Locally with Docker:
-    - Database creation on Docker;
-    - Project build;
-    - Running;
-- DB Diagram;
-- Unit tests;
-- Observation.
+- [Project Specification](https://github.com/mayraamaral/course-project?tab=readme-ov-file#project-specification);
+- [Development Tools](https://github.com/mayraamaral/course-project?tab=readme-ov-file#development-tools);
+- [Deploy - AWS](https://github.com/mayraamaral/course-project?tab=readme-ov-file#deploy---aws);
+- [Running Locally - Instructions](https://github.com/mayraamaral/course-project?tab=readme-ov-file#running-locally---instructions):
+  - [Running option #1 - Locally with Docker Compose](https://github.com/mayraamaral/course-project?tab=readme-ov-file#running-option-1---locally-with-docker-compose);
+  - [Running option #2 - Locally with Docker](https://github.com/mayraamaral/course-project?tab=readme-ov-file#running-option-2---locally-with-docker):
+    - [Database creation on Docker](https://github.com/mayraamaral/course-project?tab=readme-ov-file#database-creation-on-docker);
+    - [Project build](https://github.com/mayraamaral/course-project?tab=readme-ov-file#project-build);
+    - [Running](https://github.com/mayraamaral/course-project?tab=readme-ov-file#project-build);
+- [DB Diagram](https://github.com/mayraamaral/course-project?tab=readme-ov-file#db-diagram);
+- [Unit tests](https://github.com/mayraamaral/course-project?tab=readme-ov-file#unit-tests);
+- [Observation](https://github.com/mayraamaral/course-project?tab=readme-ov-file#observation).
   
 ## Project Specification
 - **Language:** Java 21;
@@ -80,6 +80,7 @@ docker run -p 8080:8080 -e JAVA_TOOL_OPTIONS="VM_OPTIONS" --name courses courses
 ### Unit tests
 Main service classes with > 80% of LOC (lines of code) coverage. 85% of the app service classes are covered
 by unit tests. Total of 35 unit tests.  
+[Link to access full coverage report](https://course-project-report.vercel.app/ns-1/index.html)  
 <p align="center">
   <img src="./src/main/resources/assets/coverage.png" alt="Code Coverage" />
 </p>  
