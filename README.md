@@ -24,6 +24,7 @@
     - Project build;
     - Running;
 - DB Diagram;
+- Unit tests;
 - Observation.
   
 ## Project Specification
@@ -76,5 +77,12 @@ docker run -p 8080:8080 -e JAVA_TOOL_OPTIONS="VM_OPTIONS" --name courses courses
   <img src="./src/main/resources/assets/diagram.png" alt="DB Diagram" />
 </p>  
   
+### Unit tests
+Main service classes with > 80% of LOC (lines of code) coverage. 85% of the app service classes are covered
+by unit tests. Total of 35 unit tests.  
+<p align="center">
+  <img src="./src/main/resources/assets/coverage.png" alt="Code Coverage" />
+</p>  
+
 ### Observation
 For security concerns URLs, users and passwords do not have the current values in the ```application.properties``` file, instead they are passed via VM Options.
