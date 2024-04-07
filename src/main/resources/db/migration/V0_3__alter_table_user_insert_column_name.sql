@@ -1,1 +1,1 @@
-ALTER TABLE db.user ADD name VARCHAR(100);
+ALTER TABLE user ADD name VARCHAR(100);

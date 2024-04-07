@@ -1,1 +1,1 @@
-INSERT INTO db.user(user_name, name, email, password, role_id, created_at) VALUES ("mayraamaral", "Mayra Amaral", "mayra@mayra.dev", "$2a$12$gsZG0p.cExZ/hoCJzq5.ye6rvdD8BsPm28Q9hOMcP1.bNNPV7EgOO", 1, CURRENT_DATE());
+INSERT INTO user(user_name, name, email, password, role_id, created_at) VALUES ("mayraamaral", "Mayra Amaral", "mayra@mayra.dev", "$2a$12$gsZG0p.cExZ/hoCJzq5.ye6rvdD8BsPm28Q9hOMcP1.bNNPV7EgOO", 1, CURRENT_DATE());
