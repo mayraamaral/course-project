@@ -16,7 +16,7 @@
 # Summary
 - [Project Specification](https://github.com/mayraamaral/course-project?tab=readme-ov-file#project-specification);
 - [Development Tools](https://github.com/mayraamaral/course-project?tab=readme-ov-file#development-tools);
-- [Deploy - AWS](https://github.com/mayraamaral/course-project?tab=readme-ov-file#deploy---aws);
+- [Deploy](https://github.com/mayraamaral/course-project?tab=readme-ov-file#deploy);
 - [Running Locally - Instructions](https://github.com/mayraamaral/course-project?tab=readme-ov-file#running-locally---instructions):
   - [Running option #1 - Locally with Docker Compose](https://github.com/mayraamaral/course-project?tab=readme-ov-file#running-option-1---locally-with-docker-compose);
   - [Running option #2 - Locally with Docker](https://github.com/mayraamaral/course-project?tab=readme-ov-file#running-option-2---locally-with-docker):
@@ -44,10 +44,14 @@
 - **Database client:** DBeaver;
 - **Diagram tool:** Lucidchart;
 - **Requests:** Swagger UI / HTTPie.
-## Deploy - AWS
-- **Database:** Using AWS RDS;
-- **Spring App:** Using AWS ECS (Fargate) + EC2 load balancer;
-- [Deploy Link](http://courseproject-1675530516.sa-east-1.elb.amazonaws.com)
+## Deploy
+- Using Railway (both with MySQL and Spring App);
+- [Deploy Link](https://course-project-production.up.railway.app/).  
+  
+~~## Deploy - AWS~~  
+~~- **Database:** Using AWS RDS;~~  
+~~- **Spring App:** Using AWS ECS (Fargate) + EC2 load balancer;~~  
+~~- [Deploy Link](http://courseproject-1675530516.sa-east-1.elb.amazonaws.com)~~  
 ## Running Locally - Instructions
 You can choose either to run with Docker Compose or to run two containers separated, both options
 are described below:  
