@@ -200,17 +200,6 @@ class CourseServiceTest {
     assertEquals(courseInactiveResponseMock, responseCourse);
   }
 
-  @Test
-  void testShouldDeleteWithSuccess() {
-    Course courseMock = getCourseActiveMock();
-
-    doReturn(courseMock).when(courseService).findByCode(any());
-
-    courseService.delete(any());
-
-    verify(courseRepository, times(1)).delete(any());
-  }
-
   public static List<CourseResponseDTO> getCoursesActivesDTOListMock() {
     return List.of(getCourseActiveResponseDTOMock(), getCourseActiveResponseDTOMock(), getCourseActiveResponseDTOMock());
   }

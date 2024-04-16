@@ -107,12 +107,6 @@ public class CourseService {
     return mapper.convertToDTO(courseInactivated, CourseResponseDTO.class);
   }
 
-  public void delete(String courseCode) {
-    Course course = findByCode(courseCode);
-
-    courseRepository.delete(course);
-  }
-
   public Course findByCode(String courseCode) throws NotFoundException {
     Optional<Course> courseOpt = courseRepository.findByCode(courseCode);
 

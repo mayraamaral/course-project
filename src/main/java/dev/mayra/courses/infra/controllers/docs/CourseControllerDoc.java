@@ -94,17 +94,4 @@ public interface CourseControllerDoc {
   })
   @Operation(summary = "Inactivates a course if the user exists, and if you are an admin")
   public ResponseEntity<CourseResponseDTO> inactivateAnCourse(@PathVariable String code) throws Exception;
-
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "OK"),
-      @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
-      @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
-      @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))),
-      @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = "application/json",
-          schema = @Schema(implementation = ErrorDTO.class))),
-  })
-  @Operation(summary = "Deletes a course if the course exists, and if you are an admin")
-  public ResponseEntity deleteAnCourse(@PathVariable String code);
 }

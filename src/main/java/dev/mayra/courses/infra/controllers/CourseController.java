@@ -46,13 +46,6 @@ public class CourseController implements CourseControllerDoc {
     return new ResponseEntity<>(courseService.inactivate(code), HttpStatus.OK);
   }
 
-  @DeleteMapping("/{code}")
-  public ResponseEntity deleteAnCourse(@PathVariable String code) {
-    courseService.delete(code);
-
-    return ResponseEntity.ok().build();
-  }
-
   @GetMapping("/{code}")
   public ResponseEntity<CourseResponseDTO> listByCode(@PathVariable String code) {
     return new ResponseEntity<>(courseService.listByCode(code), HttpStatus.OK);
