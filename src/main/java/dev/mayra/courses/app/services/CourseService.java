@@ -99,9 +99,7 @@ public class CourseService {
 
     Course course = findByCode(courseCode);
 
-    course.setInactivatedAt(LocalDate.now());
-    course.setStatus(CourseStatus.INACTIVE);
-
+    course.inactivate();
     Course courseInactivated = courseRepository.save(course);
 
     return mapper.convertToDTO(courseInactivated, CourseResponseDTO.class);
@@ -124,7 +122,7 @@ public class CourseService {
   public void checkIfCourseIsInactive(String courseCode) throws Exception {
     Course course = findByCode(courseCode);
 
-    if(course.getStatus().equals(CourseStatus.INACTIVE)) {
+    if(course.isInactive()) {
       throw new Exception("Course is already inactive");
     }
   }

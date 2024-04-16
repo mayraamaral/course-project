@@ -38,4 +38,13 @@ public class Course {
 
   @Column(name = "inactivated_at")
   private LocalDate inactivatedAt;
+
+  public boolean isInactive() {
+    return this.status.equals(CourseStatus.INACTIVE);
+  }
+
+  public void inactivate() {
+    this.status = CourseStatus.INACTIVE;
+    this.inactivatedAt = LocalDate.now();
+  }
 }
