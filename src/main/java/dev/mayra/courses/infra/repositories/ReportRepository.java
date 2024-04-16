@@ -12,21 +12,27 @@ import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Feedback, Integer> {
 
-  @Query("select new dev.mayra.courses.entities.report.ReportNpsDTO(" +
-      "c.code, c.name, avg(f.rating)) " +
-      "from Feedback f inner join Enrollment e on f.enrollment.idEnrollment = e.idEnrollment " +
-      "inner join Course c on e.course.code = c.code " +
-      "group by c.code")
+  @Query("SELECT new dev.mayra.courses.entities.report.ReportNpsDTO(" +
+      "c.code, c.name, " +
+      "CAST(ROUND(((SUM(CASE WHEN f.rating >= 9 THEN 1 ELSE 0 END) - " +
+      "SUM(CASE WHEN f.rating <= 6 THEN 1 ELSE 0 END)) * 100.0 / COUNT(*)), 2) AS java.lang.Double)) " +
+      "FROM Feedback f " +
+      "INNER JOIN Enrollment e ON f.enrollment.idEnrollment = e.idEnrollment " +
+      "INNER JOIN Course c ON e.course.code = c.code " +
+      "GROUP BY c.code, c.name")
   public List<ReportNpsDTO> listAllCoursesNps();
 
   @Query("select new dev.mayra.courses.entities.report.ReportNpsDTO(" +
-      "c.code, c.name, avg(f.rating)) " +
+      "c.code, c.name, " +
+      "CAST(ROUND(((SUM(CASE WHEN f.rating >= 9 THEN 1 ELSE 0 END) - " +
+      "SUM(CASE WHEN f.rating <= 6 THEN 1 ELSE 0 END)) * 100.0 / COUNT(*)), 2) AS java.lang.Double)) " +
       "from Feedback f inner join Enrollment e on f.enrollment.idEnrollment = e.idEnrollment " +
       "inner join Course c on e.course.code = c.code " +
       "where c.code = :courseCode")
   public ReportNpsDTO listCourseNpsByCode(@Param("courseCode") String courseCode);
 
-  @Query("select avg(f.rating)" +
+  @Query("select ROUND(((SUM(CASE WHEN f.rating >= 9 THEN 1 ELSE 0 END) - " +
+      "SUM(CASE WHEN f.rating <= 6 THEN 1 ELSE 0 END)) * 100.0 / COUNT(*)), 2) " +
       "from Feedback f inner join Enrollment e on f.enrollment.idEnrollment = e.idEnrollment " +
       "inner join Course c on e.course.code = c.code " +
       "where c.code = :courseCode")
