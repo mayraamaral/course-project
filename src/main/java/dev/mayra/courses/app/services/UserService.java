@@ -56,8 +56,7 @@ public class UserService {
   }
 
   public UserResponseDTO create(UserCreateDTO userToBeCreated) throws Exception {
-
-    checkIfUsernameOrEmailAreTaken(userToBeCreated);
+    checkIfUsernameAndEmailAreTaken(userToBeCreated);
 
     User user = new User();
     Role role = getRoleByName(userToBeCreated.getRoleName());
@@ -71,7 +70,14 @@ public class UserService {
 
   public UserResponseDTO update(Integer id, UserCreateDTO userUpdated) throws Exception {
     User user = findUserById(id);
-    checkIfUsernameOrEmailAreTaken(userUpdated);
+
+    if(didUsernameChanged(id, userUpdated.getUsername())) {
+      checkIfUsernameIsTaken(userUpdated);
+    }
+
+    if(didEmailChanged(id, userUpdated.getEmail())) {
+      checkIfEmailIsTaken(userUpdated);
+    }
 
     user.update(
         userUpdated,
@@ -90,14 +96,21 @@ public class UserService {
     userRepository.delete(user);
   }
 
-  public void checkIfUsernameOrEmailAreTaken(UserCreateDTO user) throws Exception {
+  public void checkIfUsernameIsTaken(UserCreateDTO user) throws Exception {
     if(usernameExists(user.getUsername())) {
       throw new Exception("Username already taken");
     }
+  }
 
+  public void checkIfEmailIsTaken(UserCreateDTO user) throws Exception {
     if(emailExists(user.getEmail())) {
-      throw new Exception("Email already registered");
+      throw new Exception("Email already taken");
     }
+  }
+
+  public void checkIfUsernameAndEmailAreTaken(UserCreateDTO user) throws Exception {
+    checkIfUsernameIsTaken(user);
+    checkIfEmailIsTaken(user);
   }
 
   public User findUserByUsername(String username) {
@@ -138,6 +151,26 @@ public class UserService {
 
   public boolean emailExists(String email) {
     return userRepository.findByEmail(email).isPresent();
+  }
+
+  public boolean didUsernameChanged(Integer id, String username) {
+    Optional<User> user = userRepository.findById(id);
+
+    if(user.isPresent()) {
+      return !user.get().getUsername().equals(username);
+    }
+
+    return false;
+  }
+
+  public boolean didEmailChanged(Integer id, String email) {
+    Optional<User> user = userRepository.findById(id);
+
+    if(user.isPresent()) {
+      return !user.get().getEmail().equals(email);
+    }
+
+    return false;
   }
 
   public Role getRoleByName(String roleName) {
