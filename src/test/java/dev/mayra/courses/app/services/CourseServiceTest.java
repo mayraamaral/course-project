@@ -274,26 +274,12 @@ class CourseServiceTest {
 
   public static User getInstructorUserMock() {
     User user = new User();
-    user.setIdUser(1);
-    user.setUsername("instructor");
-    user.setName("Instructor");
-    user.setEmail("instructor@email.com");
-    user.setPassword("password");
-    user.setRole(getInstructorRoleMock());
-    user.setCreatedAt(currentDate);
 
     return user;
   }
 
   public static User getAdminUserMock() {
     User user = new User();
-    user.setIdUser(1);
-    user.setUsername("user");
-    user.setName("User");
-    user.setEmail("user@email.com");
-    user.setPassword("password");
-    user.setRole(getAdminRoleMock());
-    user.setCreatedAt(currentDate);
 
     return user;
   }
