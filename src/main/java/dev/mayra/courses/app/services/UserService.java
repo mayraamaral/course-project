@@ -9,13 +9,12 @@ import dev.mayra.courses.infra.repositories.RoleRepository;
 import dev.mayra.courses.infra.repositories.UserRepository;
 import dev.mayra.courses.utils.Mapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import org.webjars.NotFoundException;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,10 +59,10 @@ public class UserService {
 
     checkIfUsernameOrEmailAreTaken(userToBeCreated);
 
-    User user = mapper.convertToEntity(userToBeCreated, User.class);
-    user.setRole(getRoleByName(userToBeCreated.getRoleName()));
-    user = getUserWithEncryptedPassword(user);
-    user.setCreatedAt(LocalDate.now());
+    User user = new User();
+    Role role = getRoleByName(userToBeCreated.getRoleName());
+
+    user.create(userToBeCreated, role, passwordEncoder);
 
     User userCreated = userRepository.save(user);
 
@@ -73,7 +72,13 @@ public class UserService {
   public UserResponseDTO update(Integer id, UserCreateDTO userUpdated) throws Exception {
     User user = findUserById(id);
     checkIfUsernameOrEmailAreTaken(userUpdated);
-    BeanUtils.copyProperties(userUpdated, user);
+
+    user.update(
+        userUpdated,
+        getRoleByName(userUpdated.getRoleName()),
+        passwordEncoder
+    );
+
     User userFromDb = userRepository.save(user);
 
     return mapper.convertToDTO(userFromDb, UserResponseDTO.class);
@@ -83,13 +88,6 @@ public class UserService {
     User user = findUserById(id);
 
     userRepository.delete(user);
-  }
-
-  public User getUserWithEncryptedPassword(User user) {
-    String encryptedPassword = passwordEncoder.encode(user.getPassword());
-    user.setPassword(encryptedPassword);
-
-    return user;
   }
 
   public void checkIfUsernameOrEmailAreTaken(UserCreateDTO user) throws Exception {
@@ -128,17 +126,17 @@ public class UserService {
     return userRole.getName().equals("ROLE_INSTRUCTOR");
   }
 
-  public Role getUserRole(Integer idUser) throws Exception {
+  public Role getUserRole(Integer idUser) {
     User user = findUserById(idUser);
 
     return user.getRole();
   }
 
-  public boolean usernameExists(String username) throws Exception {
+  public boolean usernameExists(String username) {
     return userRepository.findByUsername(username).isPresent();
   }
 
-  public boolean emailExists(String email) throws Exception {
+  public boolean emailExists(String email) {
     return userRepository.findByEmail(email).isPresent();
   }
 

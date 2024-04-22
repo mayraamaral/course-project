@@ -2,19 +2,19 @@ package dev.mayra.courses.entities.user;
 
 import dev.mayra.courses.entities.role.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.Collection;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -43,7 +43,6 @@ public class User implements UserDetails {
 
   @Column(name = "created_at")
   private LocalDate createdAt;
-
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,4 +73,22 @@ public class User implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
+  public void create(UserCreateDTO user, Role role, PasswordEncoder passwordEncoder) {
+    this.username = user.getUsername();
+    this.name = user.getName();
+    this.email = user.getEmail();
+    this.password = passwordEncoder.encode(user.getPassword());
+    this.role = role;
+    this.createdAt = LocalDate.now();
+  }
+
+  public void update(UserCreateDTO userUpdated, Role roleUpdated, PasswordEncoder passwordEncoder) {
+    this.username = userUpdated.getUsername();
+    this.name = userUpdated.getName();
+    this.email = userUpdated.getEmail();
+    this.password = passwordEncoder.encode(userUpdated.getPassword());
+    this.role = roleUpdated;
+  }
+
 }
