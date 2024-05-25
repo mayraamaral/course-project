@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   project:
-    image: mayraamaral/course-project:latest
+    image: ghcr.io/mayraamaral/course-project:main
     environment:
       JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS}
     ports:
