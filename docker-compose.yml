@@ -1,18 +1,18 @@
+version: '3.2'
+
 services:
-  app:
-    build: .
-    command: ./mvnw spring-boot:run
+  project:
+    image: mayraamaral/course-project:latest
     environment:
       JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS}
     ports:
-      - 8080:8080
-    expose:
-      - 8080
+      - "8080:8080"
     volumes:
-      - .:/usr/app
+      - course_project:/usr/app
     depends_on:
-      db:
-        condition: service_healthy
+      - db
+    networks:
+      - npm_public
   db:
     image: mysql/mysql-server:latest
     environment:
@@ -21,6 +21,12 @@ services:
       MYSQL_DATABASE: db
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - 3306:3306
-    expose:
-      - 3306
+      - "3306:3306"
+    networks:
+      - npm_public
+volumes:
+  course_project:
+    external: true
+networks:
+  npm_public:
+    external: true
