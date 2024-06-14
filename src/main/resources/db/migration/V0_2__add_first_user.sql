@@ -1,0 +1,1 @@
+INSERT INTO user(username, name, email, password, role, created_at) VALUES ("mayraamaral", "Mayra Amaral", "mayra@mayra.dev", "$2a$12$gsZG0p.cExZ/hoCJzq5.ye6rvdD8BsPm28Q9hOMcP1.bNNPV7EgOO", "ADMIN", CURRENT_DATE());
